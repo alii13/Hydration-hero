@@ -194,23 +194,33 @@ export default function Popup() {
       <Separator className="my-4" />
 
       {isActive ? (
-        <Button onClick={handleStop} className="w-full" variant="outline">
-          Pause Reminders
-        </Button>
+        <div className="space-y-2">
+          <Button onClick={handleStop} className="w-full bg-black text-white hover:bg-gray-800">
+            Stop & Reset Timer
+          </Button>
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              onClick={() => chrome.runtime.sendMessage({ action: 'snoozeReminder' })}
+              variant="outline"
+              size="sm"
+            >
+              ⏰ Snooze (5 min)
+            </Button>
+            <Button
+              onClick={() => {
+                handleStop()
+                setTimeout(() => handleStart(), 100)
+              }}
+              variant="outline"
+              size="sm"
+            >
+              🔄 Restart Timer
+            </Button>
+          </div>
+        </div>
       ) : (
         <Button onClick={handleStart} className="w-full bg-black text-white hover:bg-gray-800">
           Start Reminders
-        </Button>
-      )}
-
-      {isActive && (
-        <Button
-          onClick={() => chrome.runtime.sendMessage({ action: 'snoozeReminder' })}
-          variant="ghost"
-          className="w-full mt-2"
-          size="sm"
-        >
-          ⏰ Snooze (5 min)
         </Button>
       )}
     </div>
