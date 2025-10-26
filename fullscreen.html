@@ -145,35 +145,41 @@
     });
     
     // Done button - increment glass count and close
-    document.getElementById('doneBtn').addEventListener('click', () => {
-      chrome.storage.local.get(['glassesCount', 'lastResetDate'], (result) => {
-        let count = result.glassesCount || 0;
-        const today = new Date().toDateString();
-        
-        if (result.lastResetDate !== today) {
-          count = 0;
-        }
-        
-        count++;
-        
-        chrome.storage.local.set({
-          glassesCount: count,
-          lastResetDate: today
-        });
+    document.getElementById('doneBtn').addEventListener('click', async () => {
+      // Increment glass count
+      const result = await chrome.storage.local.get(['glassesCount', 'lastResetDate']);
+      let count = result.glassesCount || 0;
+      const today = new Date().toDateString();
+      
+      if (result.lastResetDate !== today) {
+        count = 0;
+      }
+      
+      count++;
+      
+      await chrome.storage.local.set({
+        glassesCount: count,
+        lastResetDate: today
       });
       
-      window.close();
+      // Close this window
+      const currentWindow = await chrome.windows.getCurrent();
+      chrome.windows.remove(currentWindow.id);
     });
     
     // Snooze button - snooze and close
-    document.getElementById('snoozeBtn').addEventListener('click', () => {
+    document.getElementById('snoozeBtn').addEventListener('click', async () => {
       chrome.runtime.sendMessage({ action: 'snoozeReminder' });
-      window.close();
+      
+      // Close this window
+      const currentWindow = await chrome.windows.getCurrent();
+      chrome.windows.remove(currentWindow.id);
     });
     
     // Auto-close after 30 seconds
-    setTimeout(() => {
-      window.close();
+    setTimeout(async () => {
+      const currentWindow = await chrome.windows.getCurrent();
+      chrome.windows.remove(currentWindow.id);
     }, 30000);
   </script>
 </body>
