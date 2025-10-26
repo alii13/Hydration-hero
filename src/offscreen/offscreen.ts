@@ -1,7 +1,7 @@
 // Offscreen document for playing audio
 // Service workers can't play audio, so we use this offscreen document
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.action === 'playSound') {
     playSound(message.soundType, message.volume, message.customSoundData);
     sendResponse({ success: true });
@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true;
 });
 
-async function playSound(soundType, volume, customSoundData) {
+async function playSound(soundType: string, volume: number, customSoundData?: string) {
   // If custom sound
   if (soundType === 'custom' && customSoundData) {
     try {
@@ -23,10 +23,15 @@ async function playSound(soundType, volume, customSoundData) {
   }
 
   // Generate built-in sound using Web Audio API
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
   const volumeValue = (volume || 50) / 100;
 
-  const soundProfiles = {
+  type SoundProfile = {
+    type: OscillatorType;
+    notes: { freq: number; duration: number; volume: number }[];
+  };
+
+  const soundProfiles: Record<string, SoundProfile> = {
     // Water Themed Sounds
     'water-drop': {
       type: 'sine',
@@ -148,10 +153,10 @@ async function playSound(soundType, volume, customSoundData) {
     }
   };
 
-  const profile = soundProfiles[soundType] || soundProfiles.default;
+  const profile = soundProfiles[soundType] || soundProfiles['default'];
   let currentTime = audioContext.currentTime;
 
-  profile.notes.forEach((note) => {
+  profile.notes.forEach((note: { freq: number; duration: number; volume: number }) => {
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 

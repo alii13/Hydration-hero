@@ -145,7 +145,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 });
 
 // Listen for messages from popup and options
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
   if (message.action === 'startReminder') {
     startReminder(message.interval);
   } else if (message.action === 'stopReminder') {
@@ -158,11 +158,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // Start reminder
-async function startReminder(interval) {
+async function startReminder(interval: number) {
   console.log('Starting reminder with interval:', interval);
   
   // Check if we're within active hours
-  const canNotify = await isWithinActiveHours();
+  await isWithinActiveHours();
   
   // Clear any existing alarms
   await chrome.alarms.clear('waterReminder');
@@ -368,17 +368,17 @@ async function showNotification() {
 }
 
 // Play notification sound
-async function playNotificationSound(soundType, volume) {
+async function playNotificationSound(soundType: string, volume: number) {
   try {
     // Create offscreen document if it doesn't exist
     const existingContexts = await chrome.runtime.getContexts({
-      contextTypes: ['OFFSCREEN_DOCUMENT']
+      contextTypes: ['OFFSCREEN_DOCUMENT' as chrome.runtime.ContextType]
     });
 
     if (existingContexts.length === 0) {
       await chrome.offscreen.createDocument({
         url: 'offscreen.html',
-        reasons: ['AUDIO_PLAYBACK'],
+        reasons: ['AUDIO_PLAYBACK' as chrome.offscreen.Reason],
         justification: 'Play notification sound for water reminder'
       });
     }

@@ -1,325 +1,236 @@
-# Testing Guide for Hydration Hero 💧
+# Testing Guide - Hydration Hero React Extension
 
-## Quick Start - Load Extension in Chrome
+## Installation for Testing
 
-### Step 1: Open Chrome Extensions Page
-1. Open Google Chrome browser
-2. Navigate to: `chrome://extensions/`
-3. Or click: **Menu (⋮)** → **Extensions** → **Manage Extensions**
+1. **Build the extension**:
+   ```bash
+   npm install
+   npm run build
+   ```
 
-### Step 2: Enable Developer Mode
-1. Look for **"Developer mode"** toggle in the top-right corner
-2. Click to enable it (it should turn blue/on)
+2. **Load in Chrome**:
+   - Open Chrome and navigate to `chrome://extensions/`
+   - Enable "Developer mode" (toggle in top right)
+   - Click "Load unpacked"
+   - Select the `dist` folder from the project
 
-### Step 3: Load Unpacked Extension
-1. Click the **"Load unpacked"** button (appears after enabling Developer mode)
-2. Navigate to your project folder: `/Users/shekh/Water-drink-reminder`
-3. Select the folder and click **"Select"** or **"Open"**
+3. **Verify installation**:
+   - You should see the Hydration Hero extension with a water droplet icon
+   - Click the extension icon to open the popup
 
-### Step 4: Verify Installation
-✅ You should see:
-- **Hydration Hero** card appear in your extensions list
-- A water drop icon (💧) in your Chrome toolbar
-- Status showing "Active" or "Enabled"
+## Testing Features
 
----
+### 1. Popup Interface (shadcn/ui Components)
 
-## 🧪 Complete Testing Checklist
+**Test the minimalistic shadcn design**:
+- [ ] Popup opens with clean, minimal white design
+- [ ] All buttons use shadcn button styles
+- [ ] Cards have proper shadcn borders and shadows
+- [ ] Inputs and sliders use shadcn styling
 
-### Basic Functionality
+**Test reminder controls**:
+- [ ] Set interval using input field (1-480 minutes)
+- [ ] Use slider to adjust interval
+- [ ] Click preset buttons (15, 30, 45, 60, 90, 120 min)
+- [ ] Click "Start Reminders" - status should show "Active"
+- [ ] Timer countdown should display correctly
 
-#### Test 1: Open Popup
-- [ ] Click the extension icon in toolbar
-- [ ] Popup opens with clean, animated interface
-- [ ] Status shows "Inactive" with gray dot
-- [ ] Default interval is 30 minutes
-- [ ] Water counter shows 0 glasses
+**Test water tracking**:
+- [ ] Click "Add Glass" - counter should increment
+- [ ] Click reset button - confirm dialog appears
+- [ ] Refresh popup - counter should persist
+- [ ] Check that counter resets at midnight
 
-#### Test 2: Start Reminders
-- [ ] Set interval to **1 minute** (for quick testing)
-- [ ] Click **"Start Reminders"** button
-- [ ] Status changes to "Active" with green pulsing dot
-- [ ] Countdown timer appears and counts down
-- [ ] Button changes to "Pause Reminders"
+### 2. Settings Page (Options)
 
-#### Test 3: Wait for Notification
-- [ ] Wait 1 minute (or your set interval)
-- [ ] Notification appears with sound
-- [ ] Shows motivational message with emoji
-- [ ] Chrome notification popup is visible
+**Access settings**:
+- Click the settings icon in popup, OR
+- Right-click extension icon → "Options"
 
-#### Test 4: Test Water Tracking
-- [ ] Click **"Add Glass"** button in popup
-- [ ] Counter increments to 1
-- [ ] Number animates (pulse effect)
-- [ ] Click notification to auto-add glass (optional)
-- [ ] Click **"Reset"** to clear counter
+**Test shadcn UI components**:
+- [ ] Clean, minimalistic design with shadcn colors
+- [ ] All form controls use shadcn components
+- [ ] Cards are properly styled
+- [ ] Buttons use shadcn variants (primary, outline, ghost)
 
-#### Test 5: Pause and Resume
-- [ ] Click **"Pause Reminders"**
-- [ ] Status changes to "Inactive"
-- [ ] No more notifications appear
-- [ ] Note: interval setting is preserved
-- [ ] Click **"Start Reminders"** again
-- [ ] Reminders resume with same interval
+**Test Notification Type** (RadioGroup component):
+- [ ] Switch between: Audio Only, Visual Only, Both, Full Screen
+- [ ] Save and verify each mode works
 
----
-
-### Settings Page Testing
-
-#### Access Settings
-- [ ] Click ⚙️ icon in popup
-- [ ] Settings page opens in new tab
-- [ ] OR right-click extension icon → **Options**
-
-#### Test Notification Types
-1. **Audio Only**
-   - [ ] Select "Audio Only" radio button
-   - [ ] Click "Save Settings"
-   - [ ] Wait for next reminder
-   - [ ] Verify: Sound plays, NO popup appears
-
-2. **Visual Only**
-   - [ ] Select "Visual Only"
-   - [ ] Save and wait
-   - [ ] Verify: Popup appears, NO sound plays
-
-3. **Both** (Default)
-   - [ ] Select "Both"
-   - [ ] Save and wait
-   - [ ] Verify: Both sound AND popup appear
-
-4. **Full Screen**
-   - [ ] Select "Full Screen"
-   - [ ] Save and wait
-   - [ ] Verify: Large popup window opens with message
-
-#### Test Sound Settings
-- [ ] Select different sound from dropdown
+**Test Sound Settings** (Select & Slider components):
+- [ ] Select different sounds from dropdown
 - [ ] Adjust volume slider (0-100%)
-- [ ] Click **"Test Sound"** button
-- [ ] Verify sound plays at correct volume
-- [ ] Try all 5 sound options
+- [ ] Click "Test" button to preview sound
+- [ ] Verify all 15+ built-in sounds work
 
-#### Test Active Hours (Schedule)
-- [ ] Enable "Enable schedule" checkbox
-- [ ] Set start time: `08:00` (8 AM)
-- [ ] Set end time: `22:00` (10 PM)
-- [ ] Save settings
-- [ ] **To test**: Change system time outside these hours
-- [ ] Verify: No notifications appear outside active hours
+**Test Active Hours** (Switch & Input components):
+- [ ] Toggle "Enable schedule" switch
+- [ ] Set start time (e.g., 08:00)
+- [ ] Set end time (e.g., 22:00)
+- [ ] Verify notifications only occur within this window
 
-#### Test Custom Messages
-- [ ] Uncheck "Use varied motivational messages"
-- [ ] Enter custom message: "Time to drink water!"
-- [ ] Save and wait for reminder
-- [ ] Verify: Your custom message appears
-- [ ] Re-enable motivational messages
-- [ ] Verify: Random messages appear again
-
-#### Test Other Settings
+**Test Message Settings** (Switch & Input components):
+- [ ] Toggle "Use varied motivational messages"
 - [ ] Toggle "Keep notification visible until dismissed"
-- [ ] Set daily water goal (e.g., 8 glasses)
-- [ ] Enable "Show daily water goal in notifications"
-- [ ] Save and verify notification shows progress
+- [ ] Enter custom message
+- [ ] Save and verify message appears in notifications
 
----
+**Test Appearance** (Switch & Input components):
+- [ ] Toggle "Use bright, colorful icons"
+- [ ] Toggle "Show daily water goal in notifications"
+- [ ] Set daily goal (glasses)
+- [ ] Save and verify settings persist
 
-### Advanced Testing
+**Test Advanced** (Switch components):
+- [ ] Toggle "Resume reminders on browser startup"
+- [ ] Toggle "Enable snooze button"
+- [ ] Restart browser and verify auto-resume works
 
-#### Test Snooze Feature
-- [ ] Start reminders with short interval
-- [ ] When notification appears, click "Snooze (5 min)"
-- [ ] Verify: Next reminder delayed by 5 minutes
-- [ ] Check countdown timer updates correctly
+### 3. Notifications
 
-#### Test Preset Buttons
-- [ ] Click each preset button in popup:
-  - [ ] 15 min
-  - [ ] 30 min
-  - [ ] 45 min
-  - [ ] 1 hour
-  - [ ] 1.5 hours
-  - [ ] 2 hours
-- [ ] Verify: Input and slider update correctly
+**Test different notification types**:
 
-#### Test Slider
-- [ ] Drag interval slider
-- [ ] Verify: Number input updates in real-time
-- [ ] Try minimum (1) and maximum (480) values
+**Audio + Visual (Default)**:
+- [ ] Wait for timer to end
+- [ ] Hear sound play
+- [ ] See Chrome notification popup
+- [ ] Notification has water icon
+- [ ] Notification has motivational message
 
-#### Test Daily Reset
-- [ ] Add some glasses to counter
-- [ ] Note the count
-- [ ] **Manual test**: Change system date to next day
-- [ ] Reopen popup
-- [ ] Verify: Counter resets to 0
+**Full Screen**:
+- [ ] Set notification type to "Full Screen" in settings
+- [ ] Wait for timer
+- [ ] Full-screen overlay appears with shadcn Card
+- [ ] Click "I Drank Water!" - window closes, counter increments
+- [ ] Click "Remind Me Later" - window closes, snoozes 5 min
 
-#### Test Browser Restart
-- [ ] Enable "Resume reminders on browser startup" in settings
-- [ ] Start reminders
-- [ ] Close Chrome completely
-- [ ] Reopen Chrome
-- [ ] Verify: Reminders resume automatically (if enabled)
-- [ ] OR verify: Reminders don't auto-start (if disabled)
+**Audio Only**:
+- [ ] Set to "Audio Only"
+- [ ] Wait for timer
+- [ ] Sound plays, no popup
 
----
+**Visual Only**:
+- [ ] Set to "Visual Only"
+- [ ] Wait for timer
+- [ ] Popup shows, no sound
 
-## 🐛 Debugging Tips
+### 4. System Permissions
 
-### View Console Logs
+**macOS Notification Permissions**:
+- Go to System Settings → Notifications → Google Chrome
+- [ ] Ensure "Allow Notifications" is ON
+- [ ] Test that notifications appear
 
-**Background Service Worker:**
-1. Go to `chrome://extensions/`
-2. Find "Hydration Hero"
-3. Click **"service worker"** link (blue text)
-4. Console opens with background logs
+### 5. Service Worker (Background)
 
-**Popup Console:**
-1. Open popup by clicking extension icon
-2. Right-click inside popup
-3. Select **"Inspect"**
-4. Console opens with popup logs
+**Test background functionality**:
+- Open service worker console:
+  - Go to `chrome://extensions/`
+  - Click "service worker" under Hydration Hero
+- [ ] Verify no console errors
+- [ ] Check logs when timer fires
+- [ ] Verify alarm creation logs
 
-**Options Console:**
-1. Open options page
-2. Right-click on page
-3. Select **"Inspect"**
-4. Console opens
+### 6. Responsive Design
 
-### Check Storage
-In any console (popup, options, or background):
+**Test UI consistency**:
+- [ ] Popup width is fixed at 380px
+- [ ] Settings page is desktop-optimized (max-width: 1200px)
+- [ ] All shadcn components render properly
+- [ ] No layout issues or overflow
+
+### 7. Data Persistence
+
+**Test storage**:
+- [ ] Set all settings, close browser completely
+- [ ] Reopen browser
+- [ ] Verify all settings persist
+- [ ] Verify water count persists (same day)
+- [ ] Change system date and verify water count resets
+
+### 8. Edge Cases
+
+**Test error handling**:
+- [ ] Set interval to 0 or negative - should default to 1
+- [ ] Set interval to 1000+ - should cap at 480
+- [ ] Disable notifications in browser - verify graceful handling
+- [ ] Clear all extension data - verify defaults load
+
+### 9. TypeScript Build
+
+**Verify build**:
+```bash
+npm run build
+```
+- [ ] No TypeScript errors
+- [ ] No linter warnings
+- [ ] dist folder generated correctly
+- [ ] All assets copied properly
+
+### 10. Performance
+
+**Test responsiveness**:
+- [ ] Popup opens instantly (<100ms)
+- [ ] Settings page loads quickly
+- [ ] No lag when adjusting sliders
+- [ ] Notifications appear on time (not delayed)
+- [ ] Extension doesn't slow down browser
+
+## Known Issues
+
+None currently! 🎉
+
+## Reporting Issues
+
+If you find any bugs:
+1. Check the service worker console for errors
+2. Note the steps to reproduce
+3. Include your Chrome version
+4. Create an issue on GitHub
+
+## React DevTools
+
+For developers:
+1. Install React Developer Tools extension
+2. Open the popup/options page
+3. Open DevTools
+4. Use the React tab to inspect component state
+
+## Debugging Tips
+
+**Console locations**:
+- **Popup**: Right-click popup → Inspect
+- **Options**: Right-click options page → Inspect  
+- **Service Worker**: chrome://extensions/ → "service worker" link
+- **Fullscreen**: Opens in new window, use F12
+
+**Storage inspection**:
+- Open any console
+- Run: `chrome.storage.local.get(console.log)`
+- View all stored data
+
+**Manual notification test**:
+- Open service worker console
+- Run:
 ```javascript
-// View all stored data
-chrome.storage.local.get(console.log);
-
-// View specific settings
-chrome.storage.local.get(['interval', 'isActive', 'glassesCount'], console.log);
-
-// Clear all data (reset extension)
-chrome.storage.local.clear();
+chrome.notifications.create({
+  type: 'basic',
+  iconUrl: chrome.runtime.getURL('icons/icon128.png'),
+  title: '💧 Test',
+  message: 'Test notification',
+  priority: 2
+});
 ```
 
-### Check Alarms
-In background service worker console:
-```javascript
-// View active alarms
-chrome.alarms.getAll(console.log);
+## Success Criteria
 
-// Clear all alarms
-chrome.alarms.clearAll();
-```
+✅ All shadcn components render with minimal, clean styling
+✅ No custom colors outside shadcn's palette
+✅ All features from vanilla version work in React version
+✅ No TypeScript errors
+✅ No console errors during normal operation
+✅ Notifications appear reliably and on time
+✅ All settings persist correctly
+✅ Water tracking works accurately
 
-### Force a Notification
-In background service worker console:
-```javascript
-// Manually trigger notification
-showNotification();
-```
-
----
-
-## 🎯 Quick Test Scenarios
-
-### Scenario 1: First Time User (5 min)
-1. Load extension
-2. Click icon, set to 1 minute
-3. Start reminders
-4. Wait for notification
-5. Add a glass when reminded
-6. Check settings page
-7. Save with custom preferences
-
-### Scenario 2: Power User (10 min)
-1. Set 2-hour interval with presets
-2. Configure active hours (8 AM - 10 PM)
-3. Enable custom message
-4. Test all 4 notification types
-5. Adjust volume
-6. Track 8 glasses throughout day
-7. Use snooze feature
-
-### Scenario 3: Edge Cases (15 min)
-1. Set minimum interval (1 min)
-2. Set maximum interval (480 min = 8 hours)
-3. Test with Chrome minimized
-4. Test with computer locked
-5. Test rapid start/stop cycles
-6. Add 20 glasses (test limits)
-7. Change settings while reminder is active
-
----
-
-## ✅ Expected Behavior
-
-### Notifications Should:
-- ✅ Appear at exact intervals (±5 seconds acceptable)
-- ✅ Play sound at configured volume
-- ✅ Show random motivational messages (or custom)
-- ✅ Be clickable to dismiss
-- ✅ Auto-increment glass count when clicked
-
-### UI Should:
-- ✅ Show smooth animations
-- ✅ Update countdown timer every second
-- ✅ Preserve settings after browser restart
-- ✅ Respond immediately to button clicks
-- ✅ Show visual feedback (hover effects, etc.)
-
-### Settings Should:
-- ✅ Save immediately when "Save Settings" clicked
-- ✅ Persist across browser sessions
-- ✅ Apply to next reminder (not current one)
-- ✅ Show "Settings saved" confirmation
-
----
-
-## 🚨 Common Issues & Solutions
-
-### Issue: Extension doesn't load
-- **Solution**: Check for errors in `chrome://extensions/`
-- Check manifest.json is valid
-- Ensure all files are present
-
-### Issue: No notifications appear
-- **Solution**: Check Chrome notification permissions
-- System Preferences → Notifications → Chrome (enable)
-- Ensure reminders are active (green dot)
-
-### Issue: Sound doesn't play
-- **Solution**: Check volume isn't 0%
-- Unmute Chrome in system sound mixer
-- Try different sound option
-
-### Issue: Countdown not updating
-- **Solution**: Refresh popup (close and reopen)
-- Check background service worker is running
-
-### Issue: Water count wrong
-- **Solution**: Check system date/time is correct
-- Reset count manually
-- Clear storage and restart
-
----
-
-## 📊 Performance Checks
-
-- [ ] Extension loads in < 1 second
-- [ ] Popup opens instantly
-- [ ] Settings save in < 500ms
-- [ ] No memory leaks after 24 hours
-- [ ] CPU usage near 0% when idle
-- [ ] Notifications fire within 5 seconds of scheduled time
-
----
-
-## 🎉 Testing Complete!
-
-If all tests pass, your extension is ready to:
-- ✅ Use daily
-- ✅ Share with friends
-- ✅ Submit to Chrome Web Store
-- ✅ Accept contributions from the community
-
-**Stay hydrated! 💧**
-
+Happy testing! 💧

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Hydration Hero - Water Reminder",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Stay hydrated with customizable reminders, motivational messages, and scheduling options",
   "permissions": [
     "alarms",
@@ -10,10 +10,11 @@
     "offscreen"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "src/popup/index.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",
@@ -27,6 +28,6 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "options_page": "options.html"
+  "options_page": "src/options/index.html"
 }
 
