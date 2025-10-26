@@ -1,14 +1,14 @@
-# Privacy Policy for Water Reminder - Daily Hydration Tracker
+# Privacy Policy for WaterMinder - Hydration Reminder & Tracker
 
 **Last updated**: October 26, 2025
 
 ## Overview
 
-Water Reminder is committed to protecting your privacy. This privacy policy explains how the extension handles data.
+WaterMinder is committed to protecting your privacy. This privacy policy explains how the extension handles data.
 
 ## Data Collection
 
-**Water Reminder does NOT collect, store, or transmit any personal data to external servers.**
+**WaterMinder does NOT collect, store, or transmit any personal data to external servers.**
 
 All data remains on your local device and is never sent to us or any third party.
 
@@ -51,18 +51,18 @@ All functionality works entirely on your local device. There are no analytics, t
 
 ## Third-Party Services
 
-Water Reminder does not use any third-party services, analytics tools, or advertising networks.
+WaterMinder does not use any third-party services, analytics tools, or advertising networks.
 
 ## Data Deletion
 
 Since all data is stored locally on your device, you can delete all extension data by:
 
 1. Uninstalling the extension from Chrome, OR
-2. Going to `chrome://extensions/`, finding Water Reminder, and clearing storage
+2. Going to `chrome://extensions/`, finding WaterMinder, and clearing storage
 
 ## Children's Privacy
 
-Water Reminder does not knowingly collect any information from anyone, including children under 13. The extension does not require any personal information to function.
+WaterMinder does not knowingly collect any information from anyone, including children under 13. The extension does not require any personal information to function.
 
 ## Changes to This Privacy Policy
 
@@ -90,14 +90,14 @@ If you have any questions about this privacy policy or the extension, please:
 
 ## Open Source
 
-The complete source code for Water Reminder is available on GitHub for transparency and community review:
+The complete source code for WaterMinder is available on GitHub for transparency and community review:
 https://github.com/alii13/Water-drink-reminder
 
 ## Your Consent
 
-By using Water Reminder, you consent to this privacy policy.
+By using WaterMinder, you consent to this privacy policy.
 
 ---
 
-**Summary**: Water Reminder is a privacy-focused extension that stores all data locally on your device and never collects, transmits, or shares any information. Your privacy is our priority.
+**Summary**: WaterMinder is a privacy-focused extension that stores all data locally on your device and never collects, transmits, or shares any information. Your privacy is our priority.
 

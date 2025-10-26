@@ -1,6 +1,6 @@
-# Water Reminder - Daily Hydration Tracker
+# WaterMinder - Hydration Reminder & Tracker
 
-> Stay healthy with smart water reminders. Track daily water intake, set custom schedules, and build lasting hydration habits with motivational notifications.
+> Stay healthy with smart water reminders. Track daily intake, set custom schedules, and build lasting hydration habits with motivational notifications.
 
 ## 🌊 Features
 
@@ -75,7 +75,7 @@ Stay healthy with smart water reminders, daily intake tracking, custom schedules
 ### Detailed Description for Store
 **Stay hydrated and healthy with the most customizable water reminder extension!**
 
-Water Reminder helps you build lasting hydration habits with smart notifications, daily tracking, and flexible scheduling options. Perfect for busy professionals, students, athletes, and anyone looking to improve their health.
+WaterMinder helps you build lasting hydration habits with smart notifications, daily tracking, and flexible scheduling options. Perfect for busy professionals, students, athletes, and anyone looking to improve their health.
 
 **Key Features:**
 ✓ Customizable reminder intervals (1-60 minutes)
@@ -112,7 +112,7 @@ Water Reminder helps you build lasting hydration habits with smart notifications
 - Better digestion
 - Weight management support
 
-Start your hydration journey today! Install Water Reminder and build a healthy habit that lasts.
+Start your hydration journey today! Install WaterMinder and build a healthy habit that lasts.
 
 ### Keywords for SEO
 water reminder, hydration tracker, drink water, water intake, hydration reminder, daily water, health reminder, wellness tracker, water goal, hydration app, drink reminder, water notification, health habit, hydration alert, water timer

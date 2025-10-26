@@ -157,8 +157,8 @@ export default function Options() {
     <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Water Reminder Settings</h1>
-          <p className="text-muted-foreground">Customize your water reminder and hydration tracking experience</p>
+          <h1 className="text-3xl font-bold mb-2">WaterMinder Settings</h1>
+          <p className="text-muted-foreground">Customize your hydration reminder and tracking experience</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 mb-6">
