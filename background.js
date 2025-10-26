@@ -326,17 +326,26 @@ async function showNotification() {
       const iconUrl = chrome.runtime.getURL('icons/icon128.png');
       console.log('Icon URL:', iconUrl);
       
-      const notificationId = await chrome.notifications.create({
-        type: 'basic',
-        iconUrl: iconUrl,
-        title: '💧 Hydration Reminder',
-        message: message,
-        priority: 2,
-        requireInteraction: settings.persistNotification || false,
-        silent: true  // We handle sound separately
-      });
-      
-      console.log('Notification ID:', notificationId);
+      try {
+        const notificationId = await chrome.notifications.create({
+          type: 'basic',
+          iconUrl: iconUrl,
+          title: '💧 Hydration Reminder',
+          message: message,
+          priority: 2,
+          requireInteraction: settings.persistNotification || false,
+          silent: true  // We handle sound separately
+        });
+        
+        console.log('✓ Notification created successfully! ID:', notificationId);
+        
+        // Verify notification was created
+        chrome.notifications.getAll((notifications) => {
+          console.log('All active notifications:', notifications);
+        });
+      } catch (err) {
+        console.error('❌ Failed to create notification:', err);
+      }
     }
     
     // Full screen notification
