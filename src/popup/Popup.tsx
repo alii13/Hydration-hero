@@ -184,11 +184,11 @@ export default function Popup() {
             <span className="text-sm text-muted-foreground">glasses</span>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <Button onClick={handleAddGlass} className="bg-black text-white hover:bg-gray-800" size="sm">
-              <Plus className="h-4 w-4" />
-            </Button>
             <Button onClick={handleRemoveGlass} variant="outline" size="sm">
               <Minus className="h-4 w-4" />
+            </Button>
+            <Button onClick={handleAddGlass} className="bg-black text-white hover:bg-gray-800" size="sm">
+              <Plus className="h-4 w-4" />
             </Button>
           </div>
         </CardContent>

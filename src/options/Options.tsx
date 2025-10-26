@@ -267,6 +267,13 @@ export default function Options() {
                       type="time"
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
+                      onClick={(e) => {
+                        const input = e.currentTarget;
+                        if (input.showPicker) {
+                          input.showPicker();
+                        }
+                      }}
+                      className="cursor-pointer"
                     />
                   </div>
                   <div>
@@ -276,6 +283,13 @@ export default function Options() {
                       type="time"
                       value={endTime}
                       onChange={(e) => setEndTime(e.target.value)}
+                      onClick={(e) => {
+                        const input = e.currentTarget;
+                        if (input.showPicker) {
+                          input.showPicker();
+                        }
+                      }}
+                      className="cursor-pointer"
                     />
                   </div>
                 </div>
