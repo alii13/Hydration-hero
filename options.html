@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hydration Hero - Settings</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+    }
+    .settings-container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .settings-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #eee;
+    }
+    .settings-header h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #2d3748;
+    }
+    .section {
+      margin-bottom: 35px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #4a5568;
+      font-weight: 500;
+    }
+    .form-group select, .form-group input[type="time"], .form-group input[type="text"] {
+      width: 100%;
+      padding: 10px 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    .form-group select:focus, .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .radio-option, .checkbox-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .radio-option:hover, .checkbox-option:hover {
+      border-color: #667eea;
+      background: #f7fafc;
+    }
+    .radio-option input, .checkbox-option input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .volume-control input[type="range"] {
+      flex: 1;
+    }
+    .volume-value {
+      min-width: 45px;
+      font-weight: 600;
+      color: #667eea;
+    }
+    .test-btn {
+      padding: 8px 16px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .test-btn:hover {
+      background: #5568d3;
+    }
+    .time-range {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .save-section {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px solid #eee;
+      text-align: center;
+    }
+    .save-btn {
+      padding: 14px 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .save-btn:hover {
+      transform: translateY(-2px);
+    }
+    .save-status {
+      margin-top: 15px;
+      color: #48bb78;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .save-status.show {
+      opacity: 1;
+    }
+    .message-preview {
+      margin-top: 10px;
+      padding: 12px;
+      background: #f7fafc;
+      border-left: 4px solid #667eea;
+      border-radius: 4px;
+      font-style: italic;
+      color: #4a5568;
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-container">
+    <div class="settings-header">
+      <span style="font-size: 36px;">⚙️</span>
+      <h1>Settings</h1>
+    </div>
+
+    <!-- Notification Type -->
+    <div class="section">
+      <div class="section-title">
+        <span>🔔</span>
+        <span>Notification Type</span>
+      </div>
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" name="notificationType" value="audio">
+          <span>🔊 Audio Only - Play sound without popup</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="notificationType" value="visual">
+          <span>👁️ Visual Only - Show popup without sound</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="notificationType" value="both" checked>
+          <span>🎯 Both - Sound and popup notification</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="notificationType" value="fullscreen">
+          <span>🖥️ Full Screen - Maximum visibility reminder</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Sound Settings -->
+    <div class="section">
+      <div class="section-title">
+        <span>🔊</span>
+        <span>Sound Settings</span>
+      </div>
+      <div class="form-group">
+        <label>Notification Sound</label>
+        <select id="soundSelect">
+          <option value="default">Default Chime</option>
+          <option value="gentle">Gentle Bell</option>
+          <option value="water">Water Drop</option>
+          <option value="pleasant">Pleasant Ding</option>
+          <option value="alert">Alert Tone</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Volume</label>
+        <div class="volume-control">
+          <span>🔇</span>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50">
+          <span class="volume-value"><span id="volumeValue">50</span>%</span>
+          <button id="testSoundBtn" class="test-btn">Test Sound</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Hours -->
+    <div class="section">
+      <div class="section-title">
+        <span>⏰</span>
+        <span>Active Hours</span>
+      </div>
+      <div class="checkbox-group">
+        <label class="checkbox-option">
+          <input type="checkbox" id="enableSchedule">
+          <span>Enable schedule (prevent nighttime notifications)</span>
+        </label>
+      </div>
+      <div class="time-range" id="scheduleInputs" style="margin-top: 15px;">
+        <div class="form-group">
+          <label>Start Time</label>
+          <input type="time" id="startTime" value="08:00">
+        </div>
+        <div class="form-group">
+          <label>End Time</label>
+          <input type="time" id="endTime" value="22:00">
+        </div>
+      </div>
+    </div>
+
+    <!-- Motivational Messages -->
+    <div class="section">
+      <div class="section-title">
+        <span>💬</span>
+        <span>Reminder Messages</span>
+      </div>
+      <div class="checkbox-group">
+        <label class="checkbox-option">
+          <input type="checkbox" id="useMotivational" checked>
+          <span>Use varied motivational messages</span>
+        </label>
+        <label class="checkbox-option">
+          <input type="checkbox" id="persistNotification">
+          <span>Keep notification visible until dismissed</span>
+        </label>
+      </div>
+      <div class="form-group" style="margin-top: 15px;">
+        <label>Custom Message (optional - leave empty for varied messages)</label>
+        <input type="text" id="customMessage" placeholder="e.g., Time to hydrate!">
+      </div>
+      <div class="message-preview" id="messagePreview">
+        💧 "Stay hydrated! Your body needs water."
+      </div>
+    </div>
+
+    <!-- Notification Settings -->
+    <div class="section">
+      <div class="section-title">
+        <span>🎨</span>
+        <span>Notification Appearance</span>
+      </div>
+      <div class="checkbox-group">
+        <label class="checkbox-option">
+          <input type="checkbox" id="useColorfulIcons" checked>
+          <span>Use bright, colorful icons</span>
+        </label>
+        <label class="checkbox-option">
+          <input type="checkbox" id="showWaterGoal">
+          <span>Show daily water goal in notifications</span>
+        </label>
+      </div>
+      <div class="form-group" style="margin-top: 15px;">
+        <label>Daily Water Goal (glasses)</label>
+        <input type="number" id="dailyGoal" min="1" max="20" value="8">
+      </div>
+    </div>
+
+    <!-- Advanced Options -->
+    <div class="section">
+      <div class="section-title">
+        <span>🔧</span>
+        <span>Advanced</span>
+      </div>
+      <div class="checkbox-group">
+        <label class="checkbox-option">
+          <input type="checkbox" id="playOnStartup">
+          <span>Resume reminders on browser startup</span>
+        </label>
+        <label class="checkbox-option">
+          <input type="checkbox" id="enableSnooze" checked>
+          <span>Enable snooze button (5 minutes)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Save Section -->
+    <div class="save-section">
+      <button id="saveBtn" class="save-btn">Save Settings</button>
+      <div id="saveStatus" class="save-status">✓ Settings saved successfully!</div>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
+

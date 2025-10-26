@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💧 Time to Hydrate!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .reminder-card {
+      background: white;
+      border-radius: 24px;
+      padding: 60px 80px;
+      text-align: center;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.3);
+      animation: slideUp 0.5s ease-out;
+      max-width: 600px;
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .water-icon {
+      font-size: 120px;
+      margin-bottom: 30px;
+      animation: bounce 1s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    h1 {
+      font-size: 42px;
+      color: #2d3748;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    .message {
+      font-size: 24px;
+      color: #4a5568;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    
+    .actions {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+    
+    button {
+      padding: 16px 40px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .done-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .done-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .snooze-btn {
+      background: #e2e8f0;
+      color: #4a5568;
+    }
+    
+    .snooze-btn:hover {
+      background: #cbd5e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="reminder-card">
+    <div class="water-icon">💧</div>
+    <h1>Time to Hydrate!</h1>
+    <div class="message" id="message">
+      Your body needs water. Take a moment to drink up!
+    </div>
+    <div class="actions">
+      <button class="done-btn" id="doneBtn">I Drank Water! 🥤</button>
+      <button class="snooze-btn" id="snoozeBtn">Remind Me Later ⏰</button>
+    </div>
+  </div>
+  
+  <script>
+    // Load message from storage
+    chrome.storage.local.get(['customMessage', 'useMotivational'], (result) => {
+      const messages = [
+        "💧 Stay hydrated! Your body needs water.",
+        "🚰 Time for a water break!",
+        "💙 Drink some water - your body will thank you!",
+        "⚡ Hydration boost time!",
+        "🌊 Get hydrated! Water is life."
+      ];
+      
+      let message = 'Your body needs water. Take a moment to drink up!';
+      
+      if (result.customMessage && result.customMessage.trim()) {
+        message = result.customMessage;
+      } else if (result.useMotivational !== false) {
+        message = messages[Math.floor(Math.random() * messages.length)];
+      }
+      
+      document.getElementById('message').textContent = message;
+    });
+    
+    // Done button - increment glass count and close
+    document.getElementById('doneBtn').addEventListener('click', () => {
+      chrome.storage.local.get(['glassesCount', 'lastResetDate'], (result) => {
+        let count = result.glassesCount || 0;
+        const today = new Date().toDateString();
+        
+        if (result.lastResetDate !== today) {
+          count = 0;
+        }
+        
+        count++;
+        
+        chrome.storage.local.set({
+          glassesCount: count,
+          lastResetDate: today
+        });
+      });
+      
+      window.close();
+    });
+    
+    // Snooze button - snooze and close
+    document.getElementById('snoozeBtn').addEventListener('click', () => {
+      chrome.runtime.sendMessage({ action: 'snoozeReminder' });
+      window.close();
+    });
+    
+    // Auto-close after 30 seconds
+    setTimeout(() => {
+      window.close();
+    }, 30000);
+  </script>
+</body>
+</html>
+
