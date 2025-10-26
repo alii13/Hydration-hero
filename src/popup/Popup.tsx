@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
-import { Settings, Droplet, Plus, RotateCcw } from 'lucide-react'
+import { Settings, Droplet, Plus, Minus } from 'lucide-react'
 import '../index.css'
 
 export default function Popup() {
@@ -80,14 +80,13 @@ export default function Popup() {
     })
   }
 
-  const handleReset = async () => {
-    if (confirm('Reset today\'s water intake?')) {
-      setGlassCount(0)
-      await chrome.storage.local.set({
-        glassesCount: 0,
-        lastResetDate: new Date().toDateString(),
-      })
-    }
+  const handleRemoveGlass = async () => {
+    const newCount = Math.max(0, glassCount - 1)
+    setGlassCount(newCount)
+    await chrome.storage.local.set({
+      glassesCount: newCount,
+      lastResetDate: new Date().toDateString(),
+    })
   }
 
   const presets = [15, 30, 45, 60, 90, 120]
@@ -184,13 +183,14 @@ export default function Popup() {
             <span className="text-4xl font-bold">{glassCount}</span>
             <span className="text-sm text-muted-foreground">glasses</span>
           </div>
-          <div className="flex gap-2">
-            <Button onClick={handleAddGlass} className="flex-1 bg-black text-white hover:bg-gray-800" size="sm">
+          <div className="grid grid-cols-2 gap-2">
+            <Button onClick={handleAddGlass} className="bg-black text-white hover:bg-gray-800" size="sm">
               <Plus className="h-4 w-4 mr-1" />
-              Add Glass
+              Plus
             </Button>
-            <Button onClick={handleReset} variant="outline" size="sm">
-              <RotateCcw className="h-4 w-4" />
+            <Button onClick={handleRemoveGlass} variant="outline" size="sm">
+              <Minus className="h-4 w-4 mr-1" />
+              Minus
             </Button>
           </div>
         </CardContent>

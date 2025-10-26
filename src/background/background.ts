@@ -341,6 +341,25 @@ async function showNotification() {
         
         console.log('✓ Notification created successfully! ID:', notificationId);
         
+        // Auto-increment glass count when notification is shown
+        chrome.storage.local.get(['glassesCount', 'lastResetDate'], (result) => {
+          let count = result.glassesCount || 0;
+          const today = new Date().toDateString();
+          
+          if (result.lastResetDate !== today) {
+            count = 0;
+          }
+          
+          count++;
+          
+          chrome.storage.local.set({
+            glassesCount: count,
+            lastResetDate: today
+          });
+          
+          console.log('✓ Auto-incremented glass count to:', count);
+        });
+        
         // Verify notification was created
         chrome.notifications.getAll((notifications) => {
           console.log('All active notifications:', notifications);
@@ -429,29 +448,10 @@ chrome.runtime.onStartup.addListener(async () => {
   }
 });
 
-// Notification click handler
+// Notification click handler - just dismiss the notification
 chrome.notifications.onClicked.addListener((notificationId) => {
-  // Auto-increment glass count when notification is clicked
-  chrome.storage.local.get(['glassesCount', 'lastResetDate'], (result) => {
-    let count = result.glassesCount || 0;
-    const today = new Date().toDateString();
-    
-    if (result.lastResetDate !== today) {
-      count = 0;
-    }
-    
-    // Increment count
-    count++;
-    
-    chrome.storage.local.set({
-      glassesCount: count,
-      lastResetDate: today
-    });
-    
-    console.log('✓ Glass count increased to:', count);
-  });
-  
   chrome.notifications.clear(notificationId);
+  console.log('Notification dismissed');
 });
 
 // Keep service worker alive
