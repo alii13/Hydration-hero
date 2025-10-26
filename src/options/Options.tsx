@@ -135,7 +135,6 @@ export default function Options() {
     { value: 'default', label: 'Default' },
     { value: 'beat', label: 'Beat' },
     { value: 'bling', label: 'Bling' },
-    { value: 'bling-2', label: 'Bling 2' },
     { value: 'chime', label: 'Chime' },
     { value: 'mamba', label: 'Mamba' },
     { value: 'single-beep', label: 'Single Beep' },
