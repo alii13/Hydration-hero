@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Hydration Hero - Water Reminder",
-  "version": "2.0.0",
-  "description": "Stay hydrated with customizable reminders, motivational messages, and scheduling options",
+  "name": "Water Reminder - Daily Hydration Tracker",
+  "version": "1.0.0",
+  "description": "Stay healthy with smart water reminders. Track daily water intake, set custom schedules, and build lasting hydration habits with motivational notifications.",
   "permissions": [
     "alarms",
     "notifications",

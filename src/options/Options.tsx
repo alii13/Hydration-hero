@@ -19,15 +19,13 @@ import { Bell, Volume2, Clock, MessageSquare, Palette, Settings as SettingsIcon 
 
 export default function Options() {
   const [notificationType, setNotificationType] = useState('both')
-  const [soundType, setSoundType] = useState('default')
+  const [soundType, setSoundType] = useState('chord')
   const [volume, setVolume] = useState(50)
   const [enableSchedule, setEnableSchedule] = useState(false)
   const [startTime, setStartTime] = useState('08:00')
   const [endTime, setEndTime] = useState('22:00')
   const [useMotivational, setUseMotivational] = useState(true)
   const [customMessage, setCustomMessage] = useState('')
-  const [persistNotification, setPersistNotification] = useState(false)
-  const [useColorfulIcons, setUseColorfulIcons] = useState(true)
   const [showWaterGoal, setShowWaterGoal] = useState(false)
   const [dailyGoal, setDailyGoal] = useState(8)
   const [playOnStartup, setPlayOnStartup] = useState(false)
@@ -48,8 +46,6 @@ export default function Options() {
       'endTime',
       'useMotivational',
       'customMessage',
-      'persistNotification',
-      'useColorfulIcons',
       'showWaterGoal',
       'dailyGoal',
       'playOnStartup',
@@ -64,10 +60,6 @@ export default function Options() {
     if (settings.endTime) setEndTime(settings.endTime)
     if (settings.useMotivational !== undefined) setUseMotivational(settings.useMotivational)
     if (settings.customMessage) setCustomMessage(settings.customMessage)
-    if (settings.persistNotification !== undefined)
-      setPersistNotification(settings.persistNotification)
-    if (settings.useColorfulIcons !== undefined)
-      setUseColorfulIcons(settings.useColorfulIcons)
     if (settings.showWaterGoal !== undefined) setShowWaterGoal(settings.showWaterGoal)
     if (settings.dailyGoal) setDailyGoal(settings.dailyGoal)
     if (settings.playOnStartup !== undefined) setPlayOnStartup(settings.playOnStartup)
@@ -84,8 +76,6 @@ export default function Options() {
       endTime,
       useMotivational,
       customMessage,
-      persistNotification,
-      useColorfulIcons,
       showWaterGoal,
       dailyGoal,
       playOnStartup,
@@ -111,6 +101,18 @@ export default function Options() {
     }
   }
 
+  const testNotification = async () => {
+    // Send message to background to show test notification
+    try {
+      await chrome.runtime.sendMessage({
+        action: 'testNotification',
+        notificationType: notificationType
+      })
+    } catch (error) {
+      console.error('Error testing notification:', error)
+    }
+  }
+
   const sounds = [
     // MP3 Sounds (High Quality)
     { value: 'alarm', label: 'Alarm' },
@@ -132,7 +134,6 @@ export default function Options() {
     { value: 'water-pour', label: 'Water Pouring' },
     { value: 'bubble', label: 'Bubble Pop' },
     // System Sounds (Generated)
-    { value: 'default', label: 'Default' },
     { value: 'beat', label: 'Beat' },
     { value: 'bling', label: 'Bling' },
     { value: 'chime', label: 'Chime' },
@@ -156,17 +157,22 @@ export default function Options() {
     <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Hydration Hero Settings</h1>
-          <p className="text-muted-foreground">Customize your water reminder experience</p>
+          <h1 className="text-3xl font-bold mb-2">Water Reminder Settings</h1>
+          <p className="text-muted-foreground">Customize your water reminder and hydration tracking experience</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 mb-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Bell className="h-5 w-5" />
-                Notification Type
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Bell className="h-5 w-5" />
+                  Notification Type
+                </CardTitle>
+                <Button onClick={testNotification} variant="outline" size="sm">
+                  Test
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               <RadioGroup value={notificationType} onValueChange={setNotificationType}>
@@ -200,10 +206,15 @@ export default function Options() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Volume2 className="h-5 w-5" />
-                Sound Settings
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Volume2 className="h-5 w-5" />
+                  Sound Settings
+                </CardTitle>
+                <Button onClick={testSound} variant="outline" size="sm">
+                  Test
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -224,19 +235,14 @@ export default function Options() {
 
               <div>
                 <Label htmlFor="volume">Volume: {volume}%</Label>
-                <div className="flex items-center gap-3 mt-2">
-                  <Slider
-                    id="volume"
-                    value={[volume]}
-                    onValueChange={(value) => setVolume(value[0])}
-                    max={100}
-                    step={1}
-                    className="flex-1"
-                  />
-                  <Button onClick={testSound} variant="outline" size="sm">
-                    Test
-                  </Button>
-                </div>
+                <Slider
+                  id="volume"
+                  value={[volume]}
+                  onValueChange={(value) => setVolume(value[0])}
+                  max={100}
+                  step={1}
+                  className="mt-2"
+                />
               </div>
             </CardContent>
           </Card>
@@ -314,15 +320,6 @@ export default function Options() {
                 <Label htmlFor="motivational">Use varied motivational messages</Label>
               </div>
 
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="persist"
-                  checked={persistNotification}
-                  onCheckedChange={setPersistNotification}
-                />
-                <Label htmlFor="persist">Keep notification visible until dismissed</Label>
-              </div>
-
               <div>
                 <Label htmlFor="custom-message">Custom Message (optional)</Label>
                 <Input
@@ -343,14 +340,6 @@ export default function Options() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="colorful"
-                  checked={useColorfulIcons}
-                  onCheckedChange={setUseColorfulIcons}
-                />
-                <Label htmlFor="colorful">Use bright, colorful icons</Label>
-              </div>
 
               <div className="flex items-center space-x-2">
                 <Switch

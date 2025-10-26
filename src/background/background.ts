@@ -155,15 +155,13 @@ const MOTIVATIONAL_MESSAGES = [
 // Default settings
 const DEFAULT_SETTINGS = {
   notificationType: 'both',
-  soundType: 'default',
+  soundType: 'chord',
   volume: 50,
   enableSchedule: false,
   startTime: '08:00',
   endTime: '22:00',
   useMotivational: true,
-  persistNotification: true,
   customMessage: '',
-  useColorfulIcons: true,
   showWaterGoal: false,
   dailyGoal: 8,
   playOnStartup: false,
@@ -204,6 +202,8 @@ chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
     handleSettingsUpdate();
   } else if (message.action === 'playTestSound') {
     playNotificationSound(message.soundType, message.volume);
+  } else if (message.action === 'testNotification') {
+    testNotification(message.notificationType);
   }
 });
 
@@ -334,8 +334,6 @@ async function showNotification() {
       'volume',
       'useMotivational',
       'customMessage',
-      'persistNotification',
-      'useColorfulIcons',
       'showWaterGoal',
       'dailyGoal',
       'glassesCount'
@@ -365,7 +363,7 @@ async function showNotification() {
     // Play sound if needed
     if (notificationType === 'audio' || notificationType === 'both') {
       console.log('Playing sound...');
-      await playNotificationSound(settings.soundType || 'default', settings.volume || 50);
+      await playNotificationSound(settings.soundType || 'chord', settings.volume || 50);
     }
     
     // Show visual notification if needed
@@ -386,7 +384,7 @@ async function showNotification() {
           title: title,
           message: message,
           priority: 2,
-          requireInteraction: settings.persistNotification || false,  // Respect user setting
+          requireInteraction: false,
           silent: true  // We handle sound separately
         });
         
@@ -465,7 +463,7 @@ async function playNotificationSound(soundType: string, volume: number) {
     // Send message to offscreen document to play sound
     await chrome.runtime.sendMessage({
       action: 'playSound',
-      soundType: soundType || 'default',
+      soundType: soundType || 'chord',
       volume: volume || 50,
       customSoundData: customSoundData
     });
@@ -473,6 +471,49 @@ async function playNotificationSound(soundType: string, volume: number) {
     console.log('Sound playback initiated:', soundType);
   } catch (err) {
     console.error('Error playing notification sound:', err);
+  }
+}
+
+// Test notification function
+async function testNotification(notificationType: string) {
+  try {
+    console.log('Testing notification type:', notificationType);
+    
+    const testMessage = "This is a test notification!";
+    
+    // Play sound if needed
+    if (notificationType === 'audio' || notificationType === 'both') {
+      const settings = await chrome.storage.local.get(['soundType', 'volume']);
+      await playNotificationSound(settings.soundType || 'chord', settings.volume || 50);
+    }
+    
+    // Show visual notification if needed
+    if (notificationType === 'visual' || notificationType === 'both') {
+      const iconUrl = chrome.runtime.getURL('icons/icon128.png');
+      await chrome.notifications.create({
+        type: 'basic',
+        iconUrl: iconUrl,
+        title: 'Test Notification',
+        message: testMessage,
+        priority: 2,
+        requireInteraction: false,
+        silent: true
+      });
+    }
+    
+    // Show fullscreen notification if needed
+    if (notificationType === 'fullscreen') {
+      await chrome.windows.create({
+        url: chrome.runtime.getURL('fullscreen.html'),
+        type: 'popup',
+        focused: true,
+        state: 'fullscreen'
+      });
+    }
+    
+    console.log('Test notification completed');
+  } catch (error) {
+    console.error('Error testing notification:', error);
   }
 }
 

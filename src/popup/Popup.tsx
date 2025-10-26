@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
-import { Settings, Droplet, Plus, Minus, AlarmClock } from 'lucide-react'
+import { Settings, Plus, Minus, AlarmClock } from 'lucide-react'
 import '../index.css'
 
 export default function Popup() {
@@ -13,6 +13,8 @@ export default function Popup() {
   const [timeRemaining, setTimeRemaining] = useState('')
   const [glassCount, setGlassCount] = useState(0)
   const [nextAlarmTime, setNextAlarmTime] = useState<number | null>(null)
+  const [enableSnooze, setEnableSnooze] = useState(true)
+  const [dailyGoal, setDailyGoal] = useState(8)
 
   useEffect(() => {
     loadData()
@@ -29,11 +31,15 @@ export default function Popup() {
       'nextAlarmTime',
       'glassesCount',
       'lastResetDate',
+      'enableSnooze',
+      'dailyGoal',
     ])
 
     if (result.interval) setInterval(result.interval)
     setIsActive(result.isActive || false)
     setNextAlarmTime(result.nextAlarmTime || null)
+    setEnableSnooze(result.enableSnooze !== undefined ? result.enableSnooze : true)
+    setDailyGoal(result.dailyGoal || 8)
 
     const today = new Date().toDateString()
     let count = result.glassesCount || 0
@@ -173,14 +179,13 @@ export default function Popup() {
       <Card className="mb-4">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
-            <Droplet className="h-4 w-4" />
             Today's Water Intake
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center justify-center gap-2">
             <span className="text-4xl">💧</span>
-            <span className="text-4xl font-bold">{glassCount}</span>
+            <span className="text-4xl font-bold">{glassCount}/{dailyGoal}</span>
             <span className="text-sm text-muted-foreground">glasses</span>
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -206,7 +211,7 @@ export default function Popup() {
         </Button>
       )}
 
-      {isActive && (
+      {isActive && enableSnooze && (
         <Button
           onClick={() => chrome.runtime.sendMessage({ action: 'snoozeReminder' })}
           variant="ghost"
