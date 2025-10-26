@@ -344,32 +344,39 @@ async function showNotification() {
 
 // Play notification sound
 async function playNotificationSound(soundType, volume) {
-  // If custom sound is selected
-  if (soundType === 'custom') {
-    const settings = await chrome.storage.local.get(['customSoundData']);
-    
-    if (settings.customSoundData) {
-      // Create an offscreen document to play audio (service workers can't play audio directly)
-      try {
-        // For now, we'll use a workaround with notifications
-        // In a full production version, you'd use an offscreen document
-        console.log('Custom sound would play here. Volume:', volume);
-        // Note: Custom sounds in service workers require offscreen documents
-        // which is a more advanced implementation
-      } catch (err) {
-        console.error('Error playing custom sound:', err);
-      }
-      return;
+  try {
+    // Create offscreen document if it doesn't exist
+    const existingContexts = await chrome.runtime.getContexts({
+      contextTypes: ['OFFSCREEN_DOCUMENT']
+    });
+
+    if (existingContexts.length === 0) {
+      await chrome.offscreen.createDocument({
+        url: 'offscreen.html',
+        reasons: ['AUDIO_PLAYBACK'],
+        justification: 'Play notification sound for water reminder'
+      });
     }
+
+    // Get custom sound data if needed
+    let customSoundData = null;
+    if (soundType === 'custom') {
+      const settings = await chrome.storage.local.get(['customSoundData']);
+      customSoundData = settings.customSoundData;
+    }
+
+    // Send message to offscreen document to play sound
+    await chrome.runtime.sendMessage({
+      action: 'playSound',
+      soundType: soundType || 'default',
+      volume: volume || 50,
+      customSoundData: customSoundData
+    });
+
+    console.log('Sound playback initiated:', soundType);
+  } catch (err) {
+    console.error('Error playing notification sound:', err);
   }
-  
-  // Use offscreen document or tabs to play sound
-  // Since service workers can't play audio directly, we'll use a workaround
-  
-  // For now, we'll create a notification which will use system sound
-  // In a full implementation, you'd use an offscreen document to play custom sounds
-  
-  console.log('Playing sound:', soundType, 'at volume:', volume);
 }
 
 // Handle settings update
