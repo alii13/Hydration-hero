@@ -1,5 +1,1 @@
-<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="8" cy="8" r="7.5" fill="black"/>
-  <path d="M8 4 C8 4, 11 7, 11 9 C11 10.5, 9.5 12, 8 12 C6.5 12, 5 10.5, 5 9 C5 7, 8 4, 8 4 Z" 
-        fill="white" opacity="0.95"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7.5" fill="#000"/><path fill="#fff" d="M8 4 C8 4, 11 7, 11 9 C11 10.5, 9.5 12, 8 12 C6.5 12, 5 10.5, 5 9 C5 7, 8 4, 8 4 Z" opacity=".95"/></svg>
