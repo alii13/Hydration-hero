@@ -195,7 +195,7 @@ export default function Popup() {
 
       {isActive ? (
         <Button onClick={handleStop} className="w-full" variant="outline">
-          Pause Reminders
+          Stop Reminders
         </Button>
       ) : (
         <Button onClick={handleStart} className="w-full bg-black text-white hover:bg-gray-800">
