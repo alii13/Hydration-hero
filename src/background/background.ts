@@ -171,7 +171,7 @@ const DEFAULT_SETTINGS = {
 
 // Initialize on install
 chrome.runtime.onInstalled.addListener(async () => {
-  console.log('Hydration Hero installed');
+  console.log('WaterMinder installed');
   
   // Set default settings if not already set
   const settings = await chrome.storage.local.get(Object.keys(DEFAULT_SETTINGS));

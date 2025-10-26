@@ -123,7 +123,7 @@ export default function Popup() {
   return (
     <div className="w-[380px] min-h-[500px] p-4">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-semibold">Hydration Hero</h1>
+        <h1 className="text-xl font-semibold">WaterMinder</h1>
         <Button
           variant="ghost"
           size="icon"

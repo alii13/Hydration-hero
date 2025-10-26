@@ -1,6 +1,6 @@
-# Contributing to Hydration Hero 💧
+# Contributing to WaterMinder 💧
 
-First off, thank you for considering contributing to Hydration Hero! It's people like you that make this extension better for everyone.
+First off, thank you for considering contributing to WaterMinder! It's people like you that make this extension better for everyone.
 
 ## 🌟 How Can I Contribute?
 
@@ -150,7 +150,7 @@ Current storage keys (don't change without migration):
 
 ### View Background Service Worker Logs
 1. Go to `chrome://extensions/`
-2. Find "Hydration Hero"
+2. Find "WaterMinder"
 3. Click "service worker" link
 4. View console logs
 
