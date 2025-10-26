@@ -1,221 +1,144 @@
-# 💧 Hydration Hero - Water Reminder Extension
+# WaterMinder - Hydration Reminder & Tracker
 
-A beautiful, intuitive Chrome extension that helps you stay hydrated throughout the day with customizable reminders and motivational messages.
+> Stay healthy with smart water reminders. Track daily intake, set custom schedules, and build lasting hydration habits with motivational notifications.
 
-## ✨ Features
+## 🌊 Features
 
-### 🎯 Core Functionality
-- **Flexible Reminder Intervals**: Set reminders from 1 minute to 8 hours (1-480 minutes)
-- **Quick Presets**: One-click access to common intervals (15min, 30min, 45min, 1hr, 1.5hrs, 2hrs)
-- **Smart Scheduling**: Set active hours to prevent nighttime notifications
-- **Persistent Settings**: Your reminder keeps running even when you pause/stop (interval is preserved)
-- **Accurate Timing**: Uses Chrome Alarms API for reliable, precise notifications
+### Core Features
+- **Smart Reminders**: Customizable intervals from 1-60 minutes to match your schedule
+- **Daily Water Tracking**: Monitor your water intake with easy-to-use glass counter
+- **Goal Setting**: Set and track daily hydration goals (default 8 glasses)
+- **Multiple Notification Types**: 
+  - Audio notifications with 25+ high-quality sounds
+  - Visual popup notifications
+  - Full-screen reminders for maximum visibility
+  - Combined audio + visual
 
-### 🔔 Notification Options
-- **Four Notification Types**:
-  - Audio Only - Sound without popup
-  - Visual Only - Silent popup notification
-  - Both - Sound + popup (default)
-  - Full Screen - Maximum visibility reminder window
-  
-### 🔊 Sound Customization
-- **15+ Built-in Sounds** organized by category:
-  - **💧 Water Themed**: Water Drop, Water Splash, Water Pouring, Bubble Pop
-  - **🔔 Bells & Chimes**: Default Chime, Gentle Bell, Wind Chime, Crystal Bell, Meditation Bell
-  - **🎵 Pleasant Tones**: Pleasant Ding, Soft Marimba, Music Box, Harp Glissando
-  - **🔊 Alerts**: Alert Tone, Simple Beep, Notification Ping
-- **Upload Custom Sounds**: MP3, WAV, OGG (up to 2MB)
-- **Volume Control**: Adjustable volume slider (0-100%)
-- **Test Button**: Preview sounds before saving
+### Customization
+- **Active Hours Scheduling**: Set specific times for reminders (e.g., 8 AM - 10 PM)
+- **100+ Motivational Messages**: Fact-based and humorous reminders to keep you engaged
+- **Custom Messages**: Write your own reminder messages
+- **Volume Control**: Adjust notification sound levels
+- **Snooze Option**: 5-minute snooze feature (can be disabled)
 
-### 💬 Motivational Messages
-- **20+ Varied Messages**: Rotating motivational reminders like:
-  - "💧 Stay hydrated! Your body needs water."
-  - "⚡ Hydration boost time!"
-  - "🧠 Stay sharp - drink water!"
-  - And many more!
-- **Custom Messages**: Set your own personalized reminder text
-- **Bright Icons**: Colorful, attention-grabbing notification icons
-- **Persistent Notifications**: Option to keep notifications visible until dismissed
+### Sound Library
+- **13 Premium MP3 Sounds**: Aurora, Bamboo, Chord, Circles, Complete, and more
+- **12 Generated Tones**: Water Drop, Water Splash, Bubble Pop, Wind Chime, etc.
+- **Custom Sound Upload**: Use your own audio files
 
-### 📊 Water Tracking
-- **Daily Glass Counter**: Track how many glasses you've drunk today
-- **Auto-Reset**: Automatically resets at midnight
-- **Quick Add**: Click notification to auto-increment counter
-- **Goal Tracking**: Set daily water goals (1-20 glasses)
-- **Progress Display**: Optionally show progress in notifications
+### User Experience
+- **Clean, Minimalist UI**: Built with modern design principles
+- **Dark Mode Support**: Automatic theme switching
+- **Progress Tracking**: Visual display of daily water intake
+- **Auto-Reset**: Daily counter resets automatically at midnight
+- **Persistent Timer**: Shows countdown to next reminder
 
-### ⏰ Smart Scheduling
-- **Active Hours**: Set start and end times (e.g., 8 AM - 10 PM)
-- **Prevents Night Interruptions**: No more annoying alerts while sleeping
-- **Resume on Startup**: Option to automatically resume reminders when browser starts
-- **Snooze Feature**: 5-minute snooze button for when you're busy
+## 📦 Installation
 
-### 🎨 Modern UI/UX
-- **Beautiful Design**: Gradient backgrounds, smooth animations
-- **Intuitive Interface**: Clean, easy-to-understand controls
-- **Real-time Countdown**: See exactly when your next reminder will trigger
-- **Visual Status**: Color-coded active/inactive indicators
-- **Preset Buttons**: Quick-select common intervals
+### From Chrome Web Store
+1. Visit the Chrome Web Store (link coming soon)
+2. Click "Add to Chrome"
+3. Click "Add Extension"
 
-## 🚀 Installation
+### For Development
+1. Clone this repository
+2. Run `npm install`
+3. Run `npm run build`
+4. Open Chrome and go to `chrome://extensions/`
+5. Enable "Developer mode"
+6. Click "Load unpacked" and select the `dist/` folder
 
-### From Source (Developer Mode)
+## 🚀 Usage
 
-1. Clone or download this repository:
-   ```bash
-   git clone https://github.com/yourusername/Water-drink-reminder.git
-   cd Water-drink-reminder
-   ```
+1. **Set Your Interval**: Choose how often you want to be reminded (default: 30 minutes)
+2. **Start Reminders**: Click "Start Reminders" in the popup
+3. **Track Your Progress**: Use the + / - buttons to manually adjust your glass count
+4. **Customize**: Visit Settings to personalize notification types, sounds, schedules, and more
 
-2. Open Chrome and navigate to `chrome://extensions/`
+## 🎨 Screenshots
 
-3. Enable "Developer mode" (toggle in top-right corner)
-
-4. Click "Load unpacked"
-
-5. Select the `Water-drink-reminder` folder
-
-6. The extension icon (💧) should appear in your toolbar!
-
-### Icon Setup (Optional)
-
-The extension includes SVG icons that work directly in Chrome. If you prefer PNG icons:
-
-**Option 1 - ImageMagick:**
-```bash
-brew install imagemagick  # macOS
-# or: sudo apt-get install imagemagick  # Linux
-./convert-icons.sh
-```
-
-**Option 2 - Python:**
-```bash
-pip install pillow cairosvg
-cd icons && python3 create-pngs.py
-```
-
-**Option 3 - Manual:**
-Use any image editor or online converter to convert the SVG files in the `icons/` directory to PNG.
-
-## 📖 Usage
-
-### Quick Start
-1. Click the extension icon to open the popup
-2. Set your desired reminder interval (default: 30 minutes)
-3. Click "Start Reminders"
-4. Stay hydrated! 💧
-
-### Accessing Settings
-- Click the ⚙️ icon in the popup, or
-- Right-click the extension icon → Options
-
-### Tracking Your Water Intake
-- Click "Add Glass" in the popup when you drink water
-- Or click the notification to auto-increment
-- Your daily count resets automatically at midnight
-
-### Pausing Reminders
-- Click "Pause Reminders" to stop notifications
-- Your interval setting is preserved
-- Click "Start Reminders" to resume with the same interval
+(Add screenshots here before publishing)
 
 ## 🛠️ Technology Stack
 
-- **Manifest V3**: Latest Chrome extension format
-- **Service Worker**: Background script for reliable alarms
-- **Chrome Alarms API**: Precise, battery-efficient notifications
-- **Chrome Storage API**: Persistent settings and data
-- **Chrome Notifications API**: System-level notifications
-- **Vanilla JavaScript**: No dependencies, lightweight and fast
-- **Modern CSS**: Gradients, animations, and responsive design
+- **Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **UI Library**: shadcn/ui
+- **Styling**: Tailwind CSS
+- **Chrome APIs**: Alarms, Notifications, Storage, Offscreen
 
-## 📁 Project Structure
+## 📝 Chrome Web Store Listing
 
-```
-Water-drink-reminder/
-├── manifest.json           # Extension configuration
-├── popup.html             # Main popup interface
-├── popup.js               # Popup logic and UI updates
-├── options.html           # Settings page
-├── options.js             # Settings logic
-├── background.js          # Service worker (alarms, notifications)
-├── fullscreen.html        # Full-screen reminder view
-├── styles.css             # Shared styles
-├── icons/                 # Extension icons (SVG + PNG)
-│   ├── icon16.svg/png
-│   ├── icon32.svg/png
-│   ├── icon48.svg/png
-│   └── icon128.svg/png
-├── convert-icons.sh       # Icon conversion utility
-└── README.md              # This file
-```
+### Short Description (132 characters max)
+Stay healthy with smart water reminders, daily intake tracking, custom schedules, and 100+ motivational hydration notifications.
+
+### Detailed Description for Store
+**Stay hydrated and healthy with the most customizable water reminder extension!**
+
+WaterMinder helps you build lasting hydration habits with smart notifications, daily tracking, and flexible scheduling options. Perfect for busy professionals, students, athletes, and anyone looking to improve their health.
+
+**Key Features:**
+✓ Customizable reminder intervals (1-60 minutes)
+✓ Daily water intake tracker with goal setting
+✓ 25+ notification sounds including high-quality MP3s
+✓ Active hours scheduling (prevent nighttime interruptions)
+✓ 100+ motivational and fact-based reminder messages
+✓ Full-screen, popup, and audio notification options
+✓ Snooze functionality
+✓ Custom message support
+✓ Dark mode support
+✓ Clean, modern interface
+
+**Why Choose Water Reminder?**
+- **Science-Backed Messages**: Reminders include real health facts about hydration
+- **Humor-Based Motivation**: Engaging messages that make you smile while staying healthy
+- **Flexible Scheduling**: Set active hours to avoid notifications when sleeping
+- **Progress Tracking**: Visual display of daily water intake vs. goals
+- **Privacy-Focused**: All data stored locally, no tracking or ads
+
+**Perfect For:**
+- Office workers who forget to drink water
+- Athletes and fitness enthusiasts
+- Students studying for long hours
+- Anyone with health and wellness goals
+- People recovering from illness
+- Remote workers and digital nomads
+
+**Health Benefits of Staying Hydrated:**
+- Improved cognitive function and focus
+- Better physical performance
+- Enhanced mood and energy levels
+- Healthier skin
+- Better digestion
+- Weight management support
+
+Start your hydration journey today! Install WaterMinder and build a healthy habit that lasts.
+
+### Keywords for SEO
+water reminder, hydration tracker, drink water, water intake, hydration reminder, daily water, health reminder, wellness tracker, water goal, hydration app, drink reminder, water notification, health habit, hydration alert, water timer
+
+### Category
+Health & Fitness / Productivity
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how you can help:
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-### Ideas for Contributions
-- 🎨 **UI/UX Improvements**: Better animations, themes, accessibility
-- 🔊 **More Sounds**: Add new notification sound options
-- 💬 **More Messages**: Expand the motivational message library
-- 🌍 **Internationalization**: Multi-language support
-- 📊 **Analytics**: Better tracking and statistics
-- 🎯 **Features**: Water intake goals, streak tracking, reminders for other activities
-- 🐛 **Bug Fixes**: Report and fix issues
-- 📝 **Documentation**: Improve docs, add tutorials, create videos
+## 📄 License
 
-### Development Setup
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes
-4. Test thoroughly in Chrome
-5. Commit: `git commit -m 'Add amazing feature'`
-6. Push: `git push origin feature/amazing-feature`
-7. Open a Pull Request
-
-### Code Style
-- Use clear, descriptive variable names
-- Comment complex logic
-- Follow existing code structure
-- Test all notification types
-- Ensure settings persist correctly
-
-### Testing Checklist
-- [ ] Reminders trigger at correct intervals
-- [ ] All notification types work (audio, visual, both, fullscreen)
-- [ ] Settings save and load correctly
-- [ ] Schedule (active hours) works properly
-- [ ] Water counter increments and resets
-- [ ] Pause/resume preserves interval
-- [ ] Extension works after browser restart
-
-## 🐛 Known Issues & Limitations
-
-- Custom audio files not yet supported (uses generated tones)
-- Full-screen notifications may be blocked by popup blockers
-- Sound volume control uses generated tones (no audio file support yet)
-
-## 📝 License
-
-MIT License - feel free to use, modify, and distribute!
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-Built with ❤️ to help people stay healthy and hydrated.
+- Icon designs inspired by modern minimalist UI principles
+- Sound library includes macOS notification tones
+- Built with shadcn/ui components
+- Motivational messages curated for maximum engagement
 
-Inspired by user feedback and the need for a truly intuitive, feature-rich water reminder extension.
+## 📧 Support
 
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/Water-drink-reminder/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/Water-drink-reminder/discussions)
-- **Email**: your.email@example.com
+For issues, questions, or feature requests, please open an issue on GitHub.
 
 ---
 
-**Stay hydrated, stay healthy! 💧**
-
-⭐ If you find this extension helpful, please star the repository!
-
+**Made with 💧 for a healthier you**

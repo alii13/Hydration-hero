@@ -1,41 +1,11 @@
-# Dependencies
-node_modules/
+node_modules
+dist
+.DS_Store
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Build files
-dist/
-build/
-*.crx
-*.pem
-*.zip
-
-# Editor directories and files
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-.DS_Store
-
-# OS files
-Thumbs.db
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Temporary files
-*.tmp
-*_tmp.*
-*.log
-
-# Chrome extension private key
-key.pem
-
-# Local development
 .env
 .env.local
-
+.vscode
+.idea

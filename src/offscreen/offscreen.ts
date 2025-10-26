@@ -1,7 +1,7 @@
 // Offscreen document for playing audio
 // Service workers can't play audio, so we use this offscreen document
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.action === 'playSound') {
     playSound(message.soundType, message.volume, message.customSoundData);
     sendResponse({ success: true });
@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true;
 });
 
-async function playSound(soundType, volume, customSoundData) {
+async function playSound(soundType: string, volume: number, customSoundData?: string) {
   // If custom sound
   if (soundType === 'custom' && customSoundData) {
     try {
@@ -22,11 +22,36 @@ async function playSound(soundType, volume, customSoundData) {
     }
   }
 
+  // List of sounds that use MP3 files
+  const mp3Sounds = [
+    'alarm', 'aurora', 'bamboo', 'chord', 'circles', 
+    'complete', 'hello', 'input', 'keys', 'note', 
+    'popcorn', 'pulse', 'synth'
+  ];
+
+  // If it's an MP3 sound, load and play the file
+  if (mp3Sounds.includes(soundType)) {
+    try {
+      const soundFile = `${soundType.charAt(0).toUpperCase() + soundType.slice(1)}.mp3`;
+      const audio = new Audio(chrome.runtime.getURL(`sounds/${soundFile}`));
+      audio.volume = (volume || 50) / 100;
+      await audio.play();
+      return;
+    } catch (err) {
+      console.error('Error playing MP3 sound:', err);
+    }
+  }
+
   // Generate built-in sound using Web Audio API
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
   const volumeValue = (volume || 50) / 100;
 
-  const soundProfiles = {
+  type SoundProfile = {
+    type: OscillatorType;
+    notes: { freq: number; duration: number; volume: number }[];
+  };
+
+  const soundProfiles: Record<string, SoundProfile> = {
     // Water Themed Sounds
     'water-drop': {
       type: 'sine',
@@ -65,6 +90,60 @@ async function playSound(soundType, volume, customSoundData) {
       notes: [
         { freq: 800, duration: 0.1, volume: volumeValue * 0.7 },
         { freq: 600, duration: 0.1, volume: volumeValue * 0.5 }
+      ]
+    },
+
+    'beat': {
+      type: 'square',
+      notes: [
+        { freq: 440, duration: 0.05, volume: volumeValue * 0.6 },
+        { freq: 554, duration: 0.05, volume: volumeValue * 0.6 }
+      ]
+    },
+    'bling': {
+      type: 'sine',
+      notes: [
+        { freq: 1319, duration: 0.08, volume: volumeValue * 0.7 },
+        { freq: 1568, duration: 0.12, volume: volumeValue * 0.5 }
+      ]
+    },
+    'chime': {
+      type: 'sine',
+      notes: [
+        { freq: 1047, duration: 0.15, volume: volumeValue * 0.6 },
+        { freq: 1319, duration: 0.15, volume: volumeValue * 0.5 },
+        { freq: 1568, duration: 0.2, volume: volumeValue * 0.4 }
+      ]
+    },
+    'mamba': {
+      type: 'triangle',
+      notes: [
+        { freq: 523, duration: 0.08, volume: volumeValue * 0.5 },
+        { freq: 698, duration: 0.08, volume: volumeValue * 0.6 },
+        { freq: 880, duration: 0.1, volume: volumeValue * 0.5 }
+      ]
+    },
+    'single-beep': {
+      type: 'sine',
+      notes: [
+        { freq: 1000, duration: 0.12, volume: volumeValue * 0.7 }
+      ]
+    },
+    'three-beeps': {
+      type: 'sine',
+      notes: [
+        { freq: 1000, duration: 0.08, volume: volumeValue * 0.6 },
+        { freq: 1000, duration: 0.08, volume: volumeValue * 0.6 },
+        { freq: 1000, duration: 0.08, volume: volumeValue * 0.6 }
+      ]
+    },
+    'whistle': {
+      type: 'sine',
+      notes: [
+        { freq: 800, duration: 0.05, volume: volumeValue * 0.4 },
+        { freq: 1000, duration: 0.05, volume: volumeValue * 0.5 },
+        { freq: 1200, duration: 0.1, volume: volumeValue * 0.6 },
+        { freq: 1400, duration: 0.12, volume: volumeValue * 0.5 }
       ]
     },
     'gentle-bell': {
@@ -148,10 +227,10 @@ async function playSound(soundType, volume, customSoundData) {
     }
   };
 
-  const profile = soundProfiles[soundType] || soundProfiles.default;
+  const profile = soundProfiles[soundType] || soundProfiles['default'];
   let currentTime = audioContext.currentTime;
 
-  profile.notes.forEach((note) => {
+  profile.notes.forEach((note: { freq: number; duration: number; volume: number }) => {
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Hydration Hero - Water Reminder",
+  "name": "WaterMinder - Hydration Reminder & Tracker",
   "version": "1.0.0",
-  "description": "Stay hydrated with customizable reminders, motivational messages, and scheduling options",
+  "description": "Stay healthy with smart water reminders. Track daily intake, set custom schedules, and build lasting hydration habits with motivational notifications.",
   "permissions": [
     "alarms",
     "notifications",
@@ -10,7 +10,8 @@
     "offscreen"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "action": {
     "default_popup": "popup.html",
@@ -27,6 +28,12 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "options_page": "options.html"
+  "options_page": "options.html",
+  "web_accessible_resources": [
+    {
+      "resources": ["sounds/*.mp3"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
 

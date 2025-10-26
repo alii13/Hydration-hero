@@ -125,7 +125,6 @@ Current storage keys (don't change without migration):
   useMotivational: boolean,
   persistNotification: boolean,
   customMessage: string,
-  useColorfulIcons: boolean,
   showWaterGoal: boolean,
   dailyGoal: number,
   playOnStartup: boolean,
