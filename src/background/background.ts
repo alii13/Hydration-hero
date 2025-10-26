@@ -3,7 +3,7 @@ const MOTIVATIONAL_MESSAGES = [
   // Humor-based
   "Your brain is 75% water. Don't let it turn into a raisin.",
   "Coffee doesn't count. Yes, we need to have this talk again.",
-  "Remember: You're not hangry, you're thirsty. Drink up!",
+  "Remember: You're not hungry, you're thirsty. Drink up!",
   "Your kidneys called. They'd like some support here.",
   "Fun fact: Ignoring this won't make you less thirsty.",
   "That headache? Probably dehydration. Try water before WebMD.",
@@ -137,7 +137,7 @@ const DEFAULT_SETTINGS = {
   startTime: '08:00',
   endTime: '22:00',
   useMotivational: true,
-  persistNotification: false,
+  persistNotification: true,
   customMessage: '',
   useColorfulIcons: true,
   showWaterGoal: false,
