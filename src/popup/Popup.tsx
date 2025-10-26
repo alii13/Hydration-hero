@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
 import { Settings, Droplet, Plus, RotateCcw } from 'lucide-react'
+import '../index.css'
 
 export default function Popup() {
   const [interval, setInterval] = useState(30)

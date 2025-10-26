@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Droplet } from 'lucide-react'
+import '../index.css'
 
 const MOTIVATIONAL_MESSAGES = [
   "💧 Stay hydrated! Your body needs water.",
