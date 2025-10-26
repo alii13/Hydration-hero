@@ -1,3 +1,27 @@
+// Humor-based notification titles
+const NOTIFICATION_TITLES = [
+  "Your Body's Calling...",
+  "Hydration Alert!",
+  "Water Break Time!",
+  "Friendly Reminder from Your Kidneys",
+  "Don't Be a Raisin",
+  "H2O Time!",
+  "Your Cells Are Thirsty",
+  "Time to Drink Up!",
+  "Hydration Station",
+  "Water O'Clock",
+  "Thirst Trap Alert",
+  "Your Daily Hydration Nudge",
+  "Drink Water or Else...",
+  "PSA: You Need Water",
+  "Water Time, Champion!",
+  "Hydrate or Diedrate",
+  "Your Brain Needs This",
+  "Mandatory Water Break",
+  "Hydration Check!",
+  "You Know What Time It Is"
+];
+
 // Motivational messages array
 const MOTIVATIONAL_MESSAGES = [
   // Humor-based
@@ -353,10 +377,13 @@ async function showNotification() {
       console.log('Icon URL:', iconUrl);
       
       try {
+        // Pick a random humorous title
+        const title = NOTIFICATION_TITLES[Math.floor(Math.random() * NOTIFICATION_TITLES.length)];
+        
         const notificationId = await chrome.notifications.create({
           type: 'basic',
           iconUrl: iconUrl,
-          title: '💧 Hydration Reminder',
+          title: title,
           message: message,
           priority: 2,
           requireInteraction: settings.persistNotification || false,  // Respect user setting
