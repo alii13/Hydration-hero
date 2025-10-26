@@ -58,8 +58,10 @@ export default function Popup() {
 
   const handleStart = async () => {
     await chrome.runtime.sendMessage({ action: 'startReminder', interval })
+    // Set active immediately for UI responsiveness
+    setIsActive(true)
     // Reload data to get the new nextAlarmTime
-    await loadData()
+    setTimeout(() => loadData(), 100)
   }
 
   const handleStop = async () => {
