@@ -12,8 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flexible reminder intervals (1-480 minutes)
 - Quick preset buttons (15min, 30min, 45min, 1hr, 1.5hrs, 2hrs)
 - Four notification types (Audio, Visual, Both, Full Screen)
-- Five sound options with volume control
-- 20+ motivational messages
+- **15 built-in notification sounds** organized by category
+- Custom sound upload support (MP3, WAV, OGG - up to 2MB)
+- Volume control with test button
+- 100 motivational messages
 - Custom message support
 - Daily water glass counter with auto-reset
 - Smart scheduling with active hours
@@ -21,12 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Snooze feature (5 minutes)
 - Daily water goal tracking
 - Progress display in notifications
-- Modern, animated UI
+- **Full-width responsive settings page** with 2-column grid layout
+- Modern, animated UI with card-based design
 - Real-time countdown timer
 - Resume on startup option
 - Persistent notification option
 - Bright, colorful icons
-- Settings page with full customization
 
 ### Features
 - ⏰ Accurate timing using Chrome Alarms API

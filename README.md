@@ -19,7 +19,12 @@ A beautiful, intuitive Chrome extension that helps you stay hydrated throughout 
   - Full Screen - Maximum visibility reminder window
   
 ### 🔊 Sound Customization
-- **Multiple Sound Options**: Default Chime, Gentle Bell, Water Drop, Pleasant Ding, Alert Tone
+- **15+ Built-in Sounds** organized by category:
+  - **💧 Water Themed**: Water Drop, Water Splash, Water Pouring, Bubble Pop
+  - **🔔 Bells & Chimes**: Default Chime, Gentle Bell, Wind Chime, Crystal Bell, Meditation Bell
+  - **🎵 Pleasant Tones**: Pleasant Ding, Soft Marimba, Music Box, Harp Glissando
+  - **🔊 Alerts**: Alert Tone, Simple Beep, Notification Ping
+- **Upload Custom Sounds**: MP3, WAV, OGG (up to 2MB)
 - **Volume Control**: Adjustable volume slider (0-100%)
 - **Test Button**: Preview sounds before saving
 

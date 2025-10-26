@@ -4,6 +4,11 @@ const soundSelect = document.getElementById('soundSelect');
 const volumeSlider = document.getElementById('volumeSlider');
 const volumeValue = document.getElementById('volumeValue');
 const testSoundBtn = document.getElementById('testSoundBtn');
+const customSoundUpload = document.getElementById('customSoundUpload');
+const soundFile = document.getElementById('soundFile');
+const uploadSoundBtn = document.getElementById('uploadSoundBtn');
+const soundFileName = document.getElementById('soundFileName');
+const clearCustomSound = document.getElementById('clearCustomSound');
 const enableSchedule = document.getElementById('enableSchedule');
 const scheduleInputs = document.getElementById('scheduleInputs');
 const startTime = document.getElementById('startTime');
@@ -32,6 +37,72 @@ volumeSlider.addEventListener('input', () => {
   volumeValue.textContent = volumeSlider.value;
 });
 
+// Sound selection - show/hide custom upload
+soundSelect.addEventListener('change', () => {
+  if (soundSelect.value === 'custom') {
+    customSoundUpload.style.display = 'block';
+  } else {
+    customSoundUpload.style.display = 'none';
+  }
+});
+
+// Upload custom sound
+uploadSoundBtn.addEventListener('click', async () => {
+  const file = soundFile.files[0];
+  
+  if (!file) {
+    alert('Please select an audio file first');
+    return;
+  }
+  
+  // Check file size (max 2MB)
+  if (file.size > 2 * 1024 * 1024) {
+    alert('File is too large! Please choose a file under 2MB.');
+    return;
+  }
+  
+  // Check file type
+  if (!file.type.startsWith('audio/')) {
+    alert('Please select a valid audio file (MP3, WAV, or OGG)');
+    return;
+  }
+  
+  // Read file as base64
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const audioData = e.target.result;
+    
+    // Save to storage
+    await chrome.storage.local.set({
+      customSoundData: audioData,
+      customSoundName: file.name
+    });
+    
+    soundFileName.textContent = file.name;
+    clearCustomSound.style.display = 'inline-block';
+    
+    alert('✓ Custom sound uploaded successfully!');
+  };
+  
+  reader.readAsDataURL(file);
+});
+
+// Clear custom sound
+clearCustomSound.addEventListener('click', async () => {
+  if (confirm('Remove custom sound?')) {
+    await chrome.storage.local.remove(['customSoundData', 'customSoundName']);
+    soundFileName.textContent = 'No custom sound uploaded';
+    clearCustomSound.style.display = 'none';
+    soundFile.value = '';
+    
+    // Switch back to default sound
+    soundSelect.value = 'default';
+    customSoundUpload.style.display = 'none';
+    
+    alert('✓ Custom sound removed');
+  }
+});
+
 // Test sound
 testSoundBtn.addEventListener('click', () => {
   playTestSound();
@@ -57,6 +128,8 @@ async function loadSettings() {
     'notificationType',
     'soundType',
     'volume',
+    'customSoundData',
+    'customSoundName',
     'enableSchedule',
     'startTime',
     'endTime',
@@ -76,6 +149,17 @@ async function loadSettings() {
 
   // Set sound
   soundSelect.value = settings.soundType || 'default';
+  
+  // Show custom sound upload if custom selected
+  if (settings.soundType === 'custom') {
+    customSoundUpload.style.display = 'block';
+  }
+  
+  // Load custom sound info
+  if (settings.customSoundName) {
+    soundFileName.textContent = settings.customSoundName;
+    clearCustomSound.style.display = 'inline-block';
+  }
 
   // Set volume
   const vol = settings.volume !== undefined ? settings.volume : 50;
@@ -162,7 +246,7 @@ function updateMessagePreview() {
 }
 
 // Play test sound
-function playTestSound() {
+async function playTestSound() {
   const volume = volumeSlider.value / 100;
   const soundType = soundSelect.value;
 
@@ -172,20 +256,25 @@ function playTestSound() {
     currentAudio = null;
   }
 
-  // Create audio element
-  currentAudio = new Audio();
-  currentAudio.volume = volume;
+  // If custom sound is selected, play it
+  if (soundType === 'custom') {
+    const settings = await chrome.storage.local.get(['customSoundData']);
+    
+    if (settings.customSoundData) {
+      currentAudio = new Audio(settings.customSoundData);
+      currentAudio.volume = volume;
+      currentAudio.play().catch(err => {
+        console.error('Error playing custom sound:', err);
+        alert('Error playing custom sound. Please try a different file.');
+      });
+      return;
+    } else {
+      alert('Please upload a custom sound first!');
+      return;
+    }
+  }
 
-  // Generate sound based on type
-  const soundUrls = {
-    default: generateBeepSound(800, 0.1),
-    gentle: generateBeepSound(600, 0.15),
-    water: generateBeepSound(1000, 0.08),
-    pleasant: generateBeepSound(880, 0.12),
-    alert: generateBeepSound(1200, 0.1)
-  };
-
-  // For now, use Web Audio API to generate simple tones
+  // For built-in sounds, use Web Audio API to generate simple tones
   playTone(soundType, volume);
 }
 
@@ -195,32 +284,154 @@ function playTone(soundType, volume) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
   }
 
-  const frequencies = {
-    default: [800, 600],
-    gentle: [600, 500],
-    water: [1000, 800, 600],
-    pleasant: [880, 1100],
-    alert: [1200, 1000]
+  const soundProfiles = {
+    // Water Themed Sounds
+    'water-drop': {
+      type: 'sine',
+      notes: [
+        { freq: 1200, duration: 0.05, volume: volume * 0.8 },
+        { freq: 900, duration: 0.05, volume: volume * 0.6 },
+        { freq: 600, duration: 0.08, volume: volume * 0.4 }
+      ]
+    },
+    'water-splash': {
+      type: 'sine',
+      notes: [
+        { freq: 1500, duration: 0.03, volume: volume * 0.5 },
+        { freq: 1200, duration: 0.03, volume: volume * 0.7 },
+        { freq: 900, duration: 0.04, volume: volume * 0.6 },
+        { freq: 700, duration: 0.05, volume: volume * 0.4 }
+      ]
+    },
+    'water-pour': {
+      type: 'sine',
+      notes: [
+        { freq: 400, duration: 0.15, volume: volume * 0.3 },
+        { freq: 500, duration: 0.15, volume: volume * 0.4 },
+        { freq: 450, duration: 0.15, volume: volume * 0.3 }
+      ]
+    },
+    'bubble': {
+      type: 'sine',
+      notes: [
+        { freq: 800, duration: 0.08, volume: volume * 0.6 },
+        { freq: 1000, duration: 0.06, volume: volume * 0.4 }
+      ]
+    },
+    
+    // Bells & Chimes
+    'default': {
+      type: 'sine',
+      notes: [
+        { freq: 800, duration: 0.1, volume: volume * 0.7 },
+        { freq: 600, duration: 0.1, volume: volume * 0.5 }
+      ]
+    },
+    'gentle-bell': {
+      type: 'sine',
+      notes: [
+        { freq: 523, duration: 0.15, volume: volume * 0.6 },
+        { freq: 659, duration: 0.15, volume: volume * 0.5 }
+      ]
+    },
+    'wind-chime': {
+      type: 'triangle',
+      notes: [
+        { freq: 659, duration: 0.1, volume: volume * 0.5 },
+        { freq: 784, duration: 0.1, volume: volume * 0.4 },
+        { freq: 988, duration: 0.1, volume: volume * 0.3 }
+      ]
+    },
+    'crystal': {
+      type: 'sine',
+      notes: [
+        { freq: 1047, duration: 0.12, volume: volume * 0.6 },
+        { freq: 1319, duration: 0.12, volume: volume * 0.5 }
+      ]
+    },
+    'meditation-bell': {
+      type: 'sine',
+      notes: [
+        { freq: 396, duration: 0.2, volume: volume * 0.7 }
+      ]
+    },
+    
+    // Pleasant Tones
+    'pleasant': {
+      type: 'sine',
+      notes: [
+        { freq: 880, duration: 0.1, volume: volume * 0.6 },
+        { freq: 1100, duration: 0.1, volume: volume * 0.5 }
+      ]
+    },
+    'soft-marimba': {
+      type: 'sine',
+      notes: [
+        { freq: 523, duration: 0.08, volume: volume * 0.7 },
+        { freq: 659, duration: 0.08, volume: volume * 0.6 },
+        { freq: 784, duration: 0.1, volume: volume * 0.5 }
+      ]
+    },
+    'music-box': {
+      type: 'square',
+      notes: [
+        { freq: 1047, duration: 0.12, volume: volume * 0.3 },
+        { freq: 1319, duration: 0.12, volume: volume * 0.25 }
+      ]
+    },
+    'harp': {
+      type: 'sine',
+      notes: [
+        { freq: 523, duration: 0.06, volume: volume * 0.4 },
+        { freq: 659, duration: 0.06, volume: volume * 0.5 },
+        { freq: 784, duration: 0.06, volume: volume * 0.6 },
+        { freq: 1047, duration: 0.08, volume: volume * 0.5 }
+      ]
+    },
+    
+    // Alerts
+    'alert': {
+      type: 'sine',
+      notes: [
+        { freq: 1200, duration: 0.1, volume: volume * 0.7 },
+        { freq: 1000, duration: 0.1, volume: volume * 0.6 }
+      ]
+    },
+    'beep': {
+      type: 'square',
+      notes: [
+        { freq: 800, duration: 0.15, volume: volume * 0.5 }
+      ]
+    },
+    'notification': {
+      type: 'sine',
+      notes: [
+        { freq: 600, duration: 0.08, volume: volume * 0.6 },
+        { freq: 900, duration: 0.08, volume: volume * 0.5 }
+      ]
+    }
   };
 
-  const freqs = frequencies[soundType] || frequencies.default;
-  const duration = 0.1;
+  const profile = soundProfiles[soundType] || soundProfiles.default;
+  let currentTime = audioContext.currentTime;
 
-  freqs.forEach((freq, index) => {
+  profile.notes.forEach((note) => {
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
 
-    oscillator.frequency.value = freq;
-    oscillator.type = 'sine';
+    oscillator.frequency.value = note.freq;
+    oscillator.type = profile.type;
 
-    gainNode.gain.setValueAtTime(volume, audioContext.currentTime + index * duration);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + (index + 1) * duration);
+    gainNode.gain.setValueAtTime(note.volume, currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, currentTime + note.duration);
 
-    oscillator.start(audioContext.currentTime + index * duration);
-    oscillator.stop(audioContext.currentTime + (index + 1) * duration);
+    oscillator.start(currentTime);
+    oscillator.stop(currentTime + note.duration);
+
+    currentTime += note.duration;
   });
 }
 
