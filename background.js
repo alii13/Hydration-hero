@@ -277,69 +277,82 @@ async function isWithinActiveHours() {
 
 // Show notification
 async function showNotification() {
-  const settings = await chrome.storage.local.get([
-    'notificationType',
-    'soundType',
-    'volume',
-    'useMotivational',
-    'customMessage',
-    'persistNotification',
-    'useColorfulIcons',
-    'showWaterGoal',
-    'dailyGoal',
-    'glassesCount'
-  ]);
-  
-  // Get message
-  let message = 'Time to drink water!';
-  
-  if (settings.customMessage && settings.customMessage.trim()) {
-    message = settings.customMessage;
-  } else if (settings.useMotivational) {
-    message = MOTIVATIONAL_MESSAGES[Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length)];
-  }
-  
-  // Add progress if enabled
-  if (settings.showWaterGoal) {
-    const glasses = settings.glassesCount || 0;
-    const goal = settings.dailyGoal || 8;
-    message += `\n\nProgress: ${glasses}/${goal} glasses today`;
-  }
-  
-  const notificationType = settings.notificationType || 'both';
-  
-  // Play sound if needed
-  if (notificationType === 'audio' || notificationType === 'both') {
-    playNotificationSound(settings.soundType, settings.volume);
-  }
-  
-  // Show visual notification if needed
-  if (notificationType === 'visual' || notificationType === 'both') {
-    const iconUrl = settings.useColorfulIcons ? 'icons/icon128.png' : 'icons/icon128.png';
+  try {
+    const settings = await chrome.storage.local.get([
+      'notificationType',
+      'soundType',
+      'volume',
+      'useMotivational',
+      'customMessage',
+      'persistNotification',
+      'useColorfulIcons',
+      'showWaterGoal',
+      'dailyGoal',
+      'glassesCount'
+    ]);
     
-    chrome.notifications.create({
-      type: 'basic',
-      iconUrl: iconUrl,
-      title: '💧 Hydration Reminder',
-      message: message,
-      priority: 2,
-      requireInteraction: settings.persistNotification || false
-    });
+    console.log('Notification settings:', settings);
+    
+    // Get message
+    let message = 'Time to drink water!';
+    
+    if (settings.customMessage && settings.customMessage.trim()) {
+      message = settings.customMessage;
+    } else if (settings.useMotivational !== false) {
+      message = MOTIVATIONAL_MESSAGES[Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length)];
+    }
+    
+    // Add progress if enabled
+    if (settings.showWaterGoal) {
+      const glasses = settings.glassesCount || 0;
+      const goal = settings.dailyGoal || 8;
+      message += `\n\nProgress: ${glasses}/${goal} glasses today`;
+    }
+    
+    const notificationType = settings.notificationType || 'both';
+    console.log('Notification type:', notificationType);
+    
+    // Play sound if needed
+    if (notificationType === 'audio' || notificationType === 'both') {
+      console.log('Playing sound...');
+      await playNotificationSound(settings.soundType || 'default', settings.volume || 50);
+    }
+    
+    // Show visual notification if needed
+    if (notificationType === 'visual' || notificationType === 'both') {
+      console.log('Creating visual notification...');
+      const iconUrl = 'icons/icon128.png';
+      
+      const notificationId = await chrome.notifications.create({
+        type: 'basic',
+        iconUrl: iconUrl,
+        title: '💧 Hydration Reminder',
+        message: message,
+        priority: 2,
+        requireInteraction: settings.persistNotification || false,
+        silent: true  // We handle sound separately
+      });
+      
+      console.log('Visual notification created:', notificationId);
+    }
+    
+    // Full screen notification
+    if (notificationType === 'fullscreen') {
+      console.log('Creating fullscreen notification...');
+      const window = await chrome.windows.create({
+        url: 'fullscreen.html',
+        type: 'popup',
+        width: 500,
+        height: 300,
+        focused: true
+      });
+      console.log('Fullscreen window created:', window.id);
+    }
+    
+    console.log('✓ Notification process completed');
+  } catch (error) {
+    console.error('Error showing notification:', error);
   }
-  
-  // Full screen notification
-  if (notificationType === 'fullscreen') {
-    // Open a fullscreen reminder window
-    chrome.windows.create({
-      url: 'fullscreen.html',
-      type: 'popup',
-      width: 500,
-      height: 300,
-      focused: true
-    });
-  }
-  
-  console.log('Notification shown:', message);
 }
 
 // Play notification sound
