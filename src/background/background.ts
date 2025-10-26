@@ -335,7 +335,7 @@ async function showNotification() {
           title: '💧 Hydration Reminder',
           message: message,
           priority: 2,
-          requireInteraction: true,  // Always require manual dismissal
+          requireInteraction: settings.persistNotification || false,  // Respect user setting
           silent: true  // We handle sound separately
         });
         
