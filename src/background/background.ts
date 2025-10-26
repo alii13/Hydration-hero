@@ -154,6 +154,8 @@ chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
     snoozeReminder();
   } else if (message.action === 'settingsUpdated') {
     handleSettingsUpdate();
+  } else if (message.action === 'playTestSound') {
+    playNotificationSound(message.soundType, message.volume);
   }
 });
 

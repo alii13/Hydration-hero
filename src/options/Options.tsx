@@ -98,9 +98,17 @@ export default function Options() {
     setTimeout(() => setSaved(false), 3000)
   }
 
-  const testSound = () => {
-    // Play test sound - implementation can be added
-    console.log('Testing sound:', soundType, 'at volume:', volume)
+  const testSound = async () => {
+    // Send message to background to play test sound
+    try {
+      await chrome.runtime.sendMessage({
+        action: 'playTestSound',
+        soundType: soundType,
+        volume: volume
+      })
+    } catch (error) {
+      console.error('Error playing test sound:', error)
+    }
   }
 
   const sounds = [
