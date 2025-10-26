@@ -321,7 +321,9 @@ async function showNotification() {
     // Show visual notification if needed
     if (notificationType === 'visual' || notificationType === 'both') {
       console.log('Creating visual notification...');
-      const iconUrl = 'icons/icon128.png';
+      
+      // Use SVG icon with proper URL
+      const iconUrl = chrome.runtime.getURL('icons/icon128.svg');
       
       const notificationId = await chrome.notifications.create({
         type: 'basic',
@@ -333,7 +335,8 @@ async function showNotification() {
         silent: true  // We handle sound separately
       });
       
-      console.log('Visual notification created:', notificationId);
+      console.log('Visual notification created with icon:', iconUrl);
+      console.log('Notification ID:', notificationId);
     }
     
     // Full screen notification
