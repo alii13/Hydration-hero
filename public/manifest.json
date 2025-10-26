@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "WaterMinder - Hydration Reminder & Tracker",
   "version": "1.0.0",
-  "description": "Stay healthy with smart water reminders. Track daily intake, set custom schedules, and build lasting hydration habits with motivational notifications.",
+  "description": "Stay hydrated with smart reminders, daily tracking, custom schedules, and motivational notifications to build healthy habits.",
   "permissions": [
     "alarms",
     "notifications",
