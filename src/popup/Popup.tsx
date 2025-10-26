@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
-import { Settings, Droplet, Plus, Minus } from 'lucide-react'
+import { Settings, Droplet, Plus, Minus, AlarmClock } from 'lucide-react'
 import '../index.css'
 
 export default function Popup() {
@@ -215,7 +215,8 @@ export default function Popup() {
           className="w-full mt-2"
           size="sm"
         >
-          ⏰ Snooze (5 min)
+          <AlarmClock className="h-4 w-4 mr-1" />
+          Snooze (5 min)
         </Button>
       )}
     </div>
