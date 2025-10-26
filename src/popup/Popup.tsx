@@ -19,8 +19,31 @@ export default function Popup() {
   useEffect(() => {
     loadData()
     const timer = window.setInterval(updateCountdown, 1000)
+    
+    // Listen for storage changes to keep UI in sync with background
+    const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
+      if (changes.isActive) {
+        setIsActive(changes.isActive.newValue || false)
+      }
+      if (changes.nextAlarmTime) {
+        setNextAlarmTime(changes.nextAlarmTime.newValue || null)
+      }
+      if (changes.glassesCount !== undefined) {
+        setGlassCount(changes.glassesCount.newValue || 0)
+      }
+      if (changes.enableSnooze !== undefined) {
+        setEnableSnooze(changes.enableSnooze.newValue !== undefined ? changes.enableSnooze.newValue : true)
+      }
+      if (changes.dailyGoal) {
+        setDailyGoal(changes.dailyGoal.newValue || 8)
+      }
+    }
+    
+    chrome.storage.onChanged.addListener(handleStorageChange)
+    
     return () => {
       window.clearInterval(timer)
+      chrome.storage.onChanged.removeListener(handleStorageChange)
     }
   }, [nextAlarmTime])
 
