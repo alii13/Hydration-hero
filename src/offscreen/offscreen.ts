@@ -72,6 +72,77 @@ async function playSound(soundType: string, volume: number, customSoundData?: st
         { freq: 600, duration: 0.1, volume: volumeValue * 0.5 }
       ]
     },
+    // macOS-style notification sounds
+    'aurora': {
+      type: 'sine',
+      notes: [
+        { freq: 659, duration: 0.08, volume: volumeValue * 0.5 },
+        { freq: 784, duration: 0.08, volume: volumeValue * 0.6 },
+        { freq: 988, duration: 0.12, volume: volumeValue * 0.7 },
+        { freq: 1175, duration: 0.15, volume: volumeValue * 0.5 }
+      ]
+    },
+    'beat': {
+      type: 'square',
+      notes: [
+        { freq: 440, duration: 0.05, volume: volumeValue * 0.6 },
+        { freq: 554, duration: 0.05, volume: volumeValue * 0.6 }
+      ]
+    },
+    'bling': {
+      type: 'sine',
+      notes: [
+        { freq: 1319, duration: 0.08, volume: volumeValue * 0.7 },
+        { freq: 1568, duration: 0.12, volume: volumeValue * 0.5 }
+      ]
+    },
+    'bling-2': {
+      type: 'sine',
+      notes: [
+        { freq: 1175, duration: 0.06, volume: volumeValue * 0.6 },
+        { freq: 1319, duration: 0.06, volume: volumeValue * 0.7 },
+        { freq: 1568, duration: 0.1, volume: volumeValue * 0.5 }
+      ]
+    },
+    'chime': {
+      type: 'sine',
+      notes: [
+        { freq: 1047, duration: 0.15, volume: volumeValue * 0.6 },
+        { freq: 1319, duration: 0.15, volume: volumeValue * 0.5 },
+        { freq: 1568, duration: 0.2, volume: volumeValue * 0.4 }
+      ]
+    },
+    'mamba': {
+      type: 'triangle',
+      notes: [
+        { freq: 523, duration: 0.08, volume: volumeValue * 0.5 },
+        { freq: 698, duration: 0.08, volume: volumeValue * 0.6 },
+        { freq: 880, duration: 0.1, volume: volumeValue * 0.5 }
+      ]
+    },
+    'single-beep': {
+      type: 'sine',
+      notes: [
+        { freq: 1000, duration: 0.12, volume: volumeValue * 0.7 }
+      ]
+    },
+    'three-beeps': {
+      type: 'sine',
+      notes: [
+        { freq: 1000, duration: 0.08, volume: volumeValue * 0.6 },
+        { freq: 1000, duration: 0.08, volume: volumeValue * 0.6 },
+        { freq: 1000, duration: 0.08, volume: volumeValue * 0.6 }
+      ]
+    },
+    'whistle': {
+      type: 'sine',
+      notes: [
+        { freq: 800, duration: 0.05, volume: volumeValue * 0.4 },
+        { freq: 1000, duration: 0.05, volume: volumeValue * 0.5 },
+        { freq: 1200, duration: 0.1, volume: volumeValue * 0.6 },
+        { freq: 1400, duration: 0.12, volume: volumeValue * 0.5 }
+      ]
+    },
     'gentle-bell': {
       type: 'sine',
       notes: [
