@@ -112,12 +112,28 @@ export default function Options() {
   }
 
   const sounds = [
-    { value: 'water-drop', label: 'Water Drop' },
-    { value: 'water-splash', label: 'Water Splash' },
-    { value: 'water-pour', label: 'Water Pouring' },
-    { value: 'bubble', label: 'Bubble Pop' },
+    // MP3 Sounds (High Quality)
+    { value: 'alarm', label: '🔔 Alarm' },
+    { value: 'aurora-mp3', label: '🌅 Aurora (MP3)' },
+    { value: 'bamboo', label: '🎋 Bamboo' },
+    { value: 'chord', label: '🎵 Chord' },
+    { value: 'circles', label: '⭕ Circles' },
+    { value: 'complete', label: '✅ Complete' },
+    { value: 'hello', label: '👋 Hello' },
+    { value: 'input', label: '⌨️ Input' },
+    { value: 'keys', label: '🔑 Keys' },
+    { value: 'note', label: '🎶 Note' },
+    { value: 'popcorn', label: '🍿 Popcorn' },
+    { value: 'pulse', label: '💓 Pulse' },
+    { value: 'synth', label: '🎹 Synth' },
+    // Water Themed (Generated)
+    { value: 'water-drop', label: '💧 Water Drop' },
+    { value: 'water-splash', label: '💦 Water Splash' },
+    { value: 'water-pour', label: '🚰 Water Pouring' },
+    { value: 'bubble', label: '🫧 Bubble Pop' },
+    // System Sounds (Generated)
     { value: 'default', label: 'Default' },
-    { value: 'aurora', label: 'Aurora' },
+    { value: 'aurora', label: 'Aurora (Synth)' },
     { value: 'beat', label: 'Beat' },
     { value: 'bling', label: 'Bling' },
     { value: 'bling-2', label: 'Bling 2' },

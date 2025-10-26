@@ -22,6 +22,26 @@ async function playSound(soundType: string, volume: number, customSoundData?: st
     }
   }
 
+  // List of sounds that use MP3 files
+  const mp3Sounds = [
+    'alarm', 'aurora', 'bamboo', 'chord', 'circles', 
+    'complete', 'hello', 'input', 'keys', 'note', 
+    'popcorn', 'pulse', 'synth'
+  ];
+
+  // If it's an MP3 sound, load and play the file
+  if (mp3Sounds.includes(soundType)) {
+    try {
+      const soundFile = `${soundType.charAt(0).toUpperCase() + soundType.slice(1)}.mp3`;
+      const audio = new Audio(chrome.runtime.getURL(`sounds/${soundFile}`));
+      audio.volume = (volume || 50) / 100;
+      await audio.play();
+      return;
+    } catch (err) {
+      console.error('Error playing MP3 sound:', err);
+    }
+  }
+
   // Generate built-in sound using Web Audio API
   const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
   const volumeValue = (volume || 50) / 100;
@@ -72,16 +92,7 @@ async function playSound(soundType: string, volume: number, customSoundData?: st
         { freq: 600, duration: 0.1, volume: volumeValue * 0.5 }
       ]
     },
-    // macOS-style notification sounds
-    'aurora': {
-      type: 'sine',
-      notes: [
-        { freq: 659, duration: 0.08, volume: volumeValue * 0.5 },
-        { freq: 784, duration: 0.08, volume: volumeValue * 0.6 },
-        { freq: 988, duration: 0.12, volume: volumeValue * 0.7 },
-        { freq: 1175, duration: 0.15, volume: volumeValue * 0.5 }
-      ]
-    },
+
     'beat': {
       type: 'square',
       notes: [
@@ -94,14 +105,6 @@ async function playSound(soundType: string, volume: number, customSoundData?: st
       notes: [
         { freq: 1319, duration: 0.08, volume: volumeValue * 0.7 },
         { freq: 1568, duration: 0.12, volume: volumeValue * 0.5 }
-      ]
-    },
-    'bling-2': {
-      type: 'sine',
-      notes: [
-        { freq: 1175, duration: 0.06, volume: volumeValue * 0.6 },
-        { freq: 1319, duration: 0.06, volume: volumeValue * 0.7 },
-        { freq: 1568, duration: 0.1, volume: volumeValue * 0.5 }
       ]
     },
     'chime': {
