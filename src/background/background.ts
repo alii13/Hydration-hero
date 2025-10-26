@@ -440,6 +440,7 @@ chrome.notifications.onClicked.addListener((notificationId) => {
       count = 0;
     }
     
+    // Increment count
     count++;
     
     chrome.storage.local.set({
@@ -447,7 +448,7 @@ chrome.notifications.onClicked.addListener((notificationId) => {
       lastResetDate: today
     });
     
-    console.log('Glass count incremented:', count);
+    console.log('✓ Glass count increased to:', count);
   });
   
   chrome.notifications.clear(notificationId);
