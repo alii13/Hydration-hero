@@ -185,12 +185,10 @@ export default function Popup() {
           </div>
           <div className="grid grid-cols-2 gap-2">
             <Button onClick={handleAddGlass} className="bg-black text-white hover:bg-gray-800" size="sm">
-              <Plus className="h-4 w-4 mr-1" />
-              Plus
+              <Plus className="h-4 w-4" />
             </Button>
             <Button onClick={handleRemoveGlass} variant="outline" size="sm">
-              <Minus className="h-4 w-4 mr-1" />
-              Minus
+              <Minus className="h-4 w-4" />
             </Button>
           </div>
         </CardContent>
