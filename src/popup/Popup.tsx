@@ -56,14 +56,17 @@ export default function Popup() {
     }
   }
 
-  const handleStart = () => {
-    chrome.runtime.sendMessage({ action: 'startReminder', interval })
-    setIsActive(true)
+  const handleStart = async () => {
+    await chrome.runtime.sendMessage({ action: 'startReminder', interval })
+    // Reload data to get the new nextAlarmTime
+    await loadData()
   }
 
-  const handleStop = () => {
-    chrome.runtime.sendMessage({ action: 'stopReminder' })
+  const handleStop = async () => {
+    await chrome.runtime.sendMessage({ action: 'stopReminder' })
     setIsActive(false)
+    setNextAlarmTime(null)
+    setTimeRemaining('')
   }
 
   const handleAddGlass = async () => {
