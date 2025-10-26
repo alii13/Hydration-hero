@@ -180,7 +180,7 @@ export default function Popup() {
             <span className="text-sm text-muted-foreground">glasses</span>
           </div>
           <div className="flex gap-2">
-            <Button onClick={handleAddGlass} className="flex-1" size="sm">
+            <Button onClick={handleAddGlass} className="flex-1 bg-black text-white hover:bg-gray-800" size="sm">
               <Plus className="h-4 w-4 mr-1" />
               Add Glass
             </Button>
@@ -198,7 +198,7 @@ export default function Popup() {
           Pause Reminders
         </Button>
       ) : (
-        <Button onClick={handleStart} className="w-full">
+        <Button onClick={handleStart} className="w-full bg-black text-white hover:bg-gray-800">
           Start Reminders
         </Button>
       )}

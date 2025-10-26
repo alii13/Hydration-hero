@@ -79,7 +79,7 @@ export default function Fullscreen() {
           <CardDescription className="text-xl mt-4">{message}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          <Button onClick={handleDrankWater} size="lg" className="text-lg py-6">
+          <Button onClick={handleDrankWater} size="lg" className="text-lg py-6 bg-black text-white hover:bg-gray-800">
             💧 I Drank Water!
           </Button>
           <Button onClick={handleSnooze} variant="outline" size="lg" className="text-lg py-6">

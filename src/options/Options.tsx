@@ -363,7 +363,7 @@ export default function Options() {
         <Separator className="my-6" />
 
         <div className="flex items-center justify-center gap-4">
-          <Button onClick={handleSave} size="lg" className="min-w-[200px]">
+          <Button onClick={handleSave} size="lg" className="min-w-[200px] bg-black text-white hover:bg-gray-800">
             Save Settings
           </Button>
           {saved && (
