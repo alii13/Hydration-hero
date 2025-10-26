@@ -1,6 +1,6 @@
 {
-  "name": "hydration-hero",
-  "version": "2.0.0",
+  "name": "waterminder",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite build --watch --mode development",

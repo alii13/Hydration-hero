@@ -85,13 +85,13 @@ This extension complies with the [Chrome Web Store User Data Privacy Policy](htt
 
 If you have any questions about this privacy policy or the extension, please:
 
-- Open an issue on [GitHub Repository](https://github.com/alii13/Water-drink-reminder)
+- Open an issue on [GitHub Repository](https://github.com/alii13/WaterMinder)
 - Email: [Your Email Address]
 
 ## Open Source
 
 The complete source code for WaterMinder is available on GitHub for transparency and community review:
-https://github.com/alii13/Water-drink-reminder
+https://github.com/alii13/WaterMinder
 
 ## Your Consent
 
